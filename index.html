@@ -1,671 +1,292 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>DINU STORE | Digital Gaming Portal</title>
-  <style>
-    :root {
-      --bg-dark: #090a0f;
-      --card-bg: #12151e;
-      --card-border: rgba(255, 255, 255, 0.08);
-      --gold: #facc15;
-      --gold-glow: rgba(250, 204, 21, 0.25);
-      --cyan: #38bdf8;
-      --green: #22c55e;
-      --text-main: #ffffff;
-      --text-muted: #94a3b8;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#08090d">
+<title>AIM SERVER 4.7 | Premium Store</title>
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      padding-bottom: 90px;
-      overflow-x: hidden;
-    }
-
-    /* 3D Particle Canvas */
-    #bg-particles {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-    }
-
-    /* Top Header */
-    .top-bar {
-      margin: 12px;
-      padding: 10px 14px;
-      background: rgba(18, 21, 30, 0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(250, 204, 21, 0.3);
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 10px;
-      z-index: 50;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .brand-logo {
-      width: 42px;
-      height: 42px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #3b82f6, #9333ea);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      font-size: 0.75rem;
-      text-align: center;
-      line-height: 1.1;
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-
-    .brand-text h2 {
-      font-size: 1.05rem;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-    }
-
-    .brand-text span {
-      font-size: 0.65rem;
-      color: var(--cyan);
-      font-weight: 700;
-      letter-spacing: 1px;
-      display: block;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .help-pill {
-      padding: 6px 12px;
-      border-radius: 50px;
-      border: 1px solid rgba(250, 204, 21, 0.4);
-      background: rgba(250, 204, 21, 0.08);
-      color: var(--gold);
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    /* Container */
-    .container {
-      max-width: 540px;
-      margin: 0 auto;
-      padding: 0 14px;
-    }
-
-    /* Tab Sections */
-    .tab-section {
-      display: none;
-      animation: fadeIn 0.25s ease;
-    }
-    .tab-section.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Hero Banner */
-    .hero-banner {
-      position: relative;
-      border-radius: 18px;
-      overflow: hidden;
-      background: linear-gradient(135deg, #2a1205 0%, #451a03 45%, #0f172a 100%);
-      border: 1px solid rgba(250, 204, 21, 0.35);
-      padding: 24px 20px;
-      margin-bottom: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-      transform-style: preserve-3d;
-      transition: transform 0.2s ease;
-    }
-
-    .hero-tag {
-      color: var(--gold);
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 1px;
-      margin-bottom: 6px;
-    }
-
-    .hero-banner h1 {
-      font-size: 1.5rem;
-      font-weight: 900;
-      line-height: 1.2;
-      margin-bottom: 16px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-    }
-
-    .shop-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--gold);
-      color: #000;
-      font-weight: 800;
-      font-size: 0.9rem;
-      padding: 10px 20px;
-      border-radius: 50px;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 4px 15px var(--gold-glow);
-    }
-
-    /* 4 Stats Grid */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
-    .stat-box {
-      background: var(--card-bg);
-      border-radius: 14px;
-      padding: 12px 6px;
-      text-align: center;
-      border: 1px solid rgba(56, 189, 248, 0.25);
-    }
-    .stat-box:nth-child(1) { border-color: rgba(250, 204, 21, 0.4); }
-    .stat-box:nth-child(3) { border-color: rgba(34, 197, 94, 0.4); }
-    .stat-box:nth-child(4) { border-color: rgba(168, 85, 247, 0.4); }
-
-    .stat-icon { font-size: 1.1rem; margin-bottom: 4px; }
-    .stat-val { font-size: 0.85rem; font-weight: 800; }
-    .stat-lbl { font-size: 0.65rem; color: var(--text-muted); margin-top: 2px; }
-    .stat-sub { font-size: 0.52rem; color: #64748b; margin-top: 3px; text-transform: uppercase; }
-
-    /* Filter Pills */
-    .filters {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      margin-bottom: 12px;
-      scrollbar-width: none;
-    }
-    .filters::-webkit-scrollbar { display: none; }
-
-    .filter-btn {
-      padding: 8px 16px;
-      border-radius: 10px;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      color: var(--text-muted);
-      font-weight: 700;
-      font-size: 0.82rem;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-    .filter-btn.active {
-      background: var(--gold);
-      color: #000;
-      border-color: var(--gold);
-    }
-
-    /* Search Bar */
-    .search-box {
-      position: relative;
-      margin-bottom: 16px;
-    }
-    .search-box input {
-      width: 100%;
-      padding: 12px 16px 12px 40px;
-      border-radius: 12px;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      color: #fff;
-      font-size: 0.9rem;
-      outline: none;
-    }
-    .search-box input:focus { border-color: var(--gold); }
-    .search-box span {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-    }
-
-    /* Product Cards Grid (3 Columns like screenshot) */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-
-    .product-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.25s ease, border-color 0.25s ease;
-      transform-style: preserve-3d;
-    }
-    .product-card:hover {
-      transform: translateY(-4px) scale(1.02);
-      border-color: var(--gold);
-    }
-
-    .product-thumb {
-      height: 110px;
-      background: radial-gradient(circle at center, #1e293b 0%, #090a0f 100%);
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      font-size: 1.2rem;
-      letter-spacing: 1px;
-      text-align: center;
-      padding: 8px;
-    }
-
-    .badge-safe {
-      position: absolute;
-      top: 6px;
-      left: 6px;
-      background: var(--green);
-      color: #000;
-      font-size: 0.55rem;
-      font-weight: 900;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-
-    .badge-os {
-      position: absolute;
-      top: 6px;
-      right: 6px;
-      background: rgba(34, 197, 94, 0.2);
-      border: 1px solid var(--green);
-      color: var(--green);
-      font-size: 0.52rem;
-      font-weight: 800;
-      padding: 2px 5px;
-      border-radius: 4px;
-    }
-
-    .product-info {
-      padding: 8px;
-    }
-    .product-title {
-      font-size: 0.78rem;
-      font-weight: 700;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .product-price {
-      font-size: 0.72rem;
-      color: var(--gold);
-      font-weight: 800;
-      margin-top: 2px;
-    }
-
-    /* Contact / Alerts / Orders Cards */
-    .section-header {
-      margin: 10px 0 18px;
-    }
-    .section-eyebrow {
-      color: var(--gold);
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-    }
-    .section-header h1 {
-      font-size: 1.7rem;
-      font-weight: 900;
-      margin: 4px 0;
-    }
-    .section-header p {
-      color: var(--text-muted);
-      font-size: 0.88rem;
-      line-height: 1.4;
-    }
-
-    .info-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .info-card.blue { border-color: rgba(56, 189, 248, 0.35); background: linear-gradient(145deg, #0c1926, #12151e); }
-    .info-card.purple { border-color: rgba(168, 85, 247, 0.35); background: linear-gradient(145deg, #191026, #12151e); }
-    .info-card.gold { border-color: rgba(250, 204, 21, 0.35); background: linear-gradient(145deg, #211a08, #12151e); }
-
-    .action-chip {
-      padding: 8px 14px;
-      border-radius: 8px;
-      background: rgba(255,255,255,0.08);
-      color: #fff;
-      font-size: 0.75rem;
-      font-weight: 800;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
-    /* Empty Box (Orders) */
-    .empty-box {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    /* Alert Card */
-    .alert-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 12px;
-    }
-    .alert-card.unread { border-color: rgba(250, 204, 21, 0.45); }
-    .alert-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-    .alert-top h3 { font-size: 1rem; font-weight: 800; }
-    .alert-date { font-size: 0.72rem; color: var(--text-muted); }
-    .alert-body { font-size: 0.85rem; color: #cbd5e1; line-height: 1.5; }
-
-    /* Bottom Floating Navigation Bar */
-    .bottom-nav {
-      position: fixed;
-      bottom: 12px;
-      left: 12px;
-      right: 12px;
-      max-width: 520px;
-      margin: 0 auto;
-      background: rgba(18, 21, 30, 0.92);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 22px;
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      padding: 6px;
-      z-index: 100;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-    }
-
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 8px 4px;
-      border-radius: 16px;
-      color: var(--text-muted);
-      font-size: 0.7rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s;
-      border: none;
-      background: transparent;
-    }
-
-    .nav-item svg {
-      width: 20px;
-      height: 20px;
-      margin-bottom: 4px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-    }
-
-    .nav-item.active {
-      background: rgba(250, 204, 21, 0.15);
-      color: var(--gold);
-    }
-
-    /* Purchase Modal */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(6px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      z-index: 200;
-    }
-    .modal-backdrop.open { display: flex; }
-    .modal-box {
-      background: #141824;
-      border: 1px solid rgba(250, 204, 21, 0.4);
-      border-radius: 20px;
-      padding: 22px;
-      width: 100%;
-      max-width: 380px;
-      text-align: center;
-    }
-  </style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+ background:#08090d;color:#fff;
+ font-family:Arial,sans-serif;
+ padding-bottom:85px;
+}
+header{
+ height:65px;padding:0 18px;
+ display:flex;align-items:center;
+ justify-content:space-between;
+ background:#101116;
+ border-bottom:1px solid #292929;
+ position:sticky;top:0;z-index:10;
+}
+.logo{font-size:19px;font-weight:900;color:#f5c542}
+.logo span{color:white}
+.menu{font-size:25px;color:#f5c542}
+.profile{
+ width:37px;height:37px;border-radius:50%;
+ background:#29251a;border:1px solid #e5b936;
+ display:grid;place-items:center;font-size:19px;
+}
+.container{padding:18px}
+.welcome{font-size:13px;color:#aaa;margin-bottom:8px}
+h2{font-size:23px;margin-bottom:15px}
+h2 span{color:#f5c542}
+.banner{
+ min-height:170px;border-radius:15px;
+ padding:23px 19px;
+ background:linear-gradient(120deg,#29200c,#11131c 65%,#25200f);
+ border:1px solid #a47c23;
+ position:relative;overflow:hidden;
+}
+.banner:after{
+ content:"";position:absolute;width:170px;height:170px;
+ right:-65px;top:10px;border-radius:50%;
+ background:#d9a52920;
+}
+.banner small{color:#e9bd49;letter-spacing:2px}
+.banner h1{font-size:27px;margin:13px 0 8px}
+.banner p{font-size:12px;color:#c0bdb5}
+.banner button{
+ margin-top:17px;padding:10px 19px;
+ background:#edbd40;border:0;border-radius:6px;
+ color:#17120a;font-weight:bold;
+}
+.section-title{
+ display:flex;justify-content:space-between;
+ align-items:center;margin:26px 0 15px;
+}
+.section-title h3{font-size:17px}
+.section-title span{font-size:12px;color:#e8b936}
+.categories{
+ display:grid;grid-template-columns:repeat(3,1fr);
+ gap:10px;
+}
+.category{
+ background:#15161d;border:1px solid #292a30;
+ border-radius:10px;text-align:center;
+ padding:16px 5px;font-size:13px;
+}
+.category b{display:block;font-size:25px;margin-bottom:9px}
+.category.active{border-color:#d9aa35;color:#efc14b}
+.search{
+ width:100%;padding:14px 15px;
+ background:#15161d;border:1px solid #303039;
+ border-radius:9px;color:white;
+ outline:none;font-size:14px;
+}
+.products{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:12px;
+}
+.product{
+ background:#14151b;border:1px solid #2b2b30;
+ border-radius:12px;overflow:hidden;
+}
+.product-img{
+ height:115px;display:grid;place-items:center;
+ background:linear-gradient(140deg,#27200e,#171820);
+ font-size:43px;
+}
+.product-info{padding:12px}
+.tag{
+ display:inline-block;color:#eac04f;
+ font-size:10px;background:#332a16;
+ padding:5px 8px;border-radius:4px;
+}
+.product h4{font-size:14px;margin:10px 0 7px}
+.product p{font-size:11px;color:#92939a;line-height:1.5}
+.price{
+ color:#f3c34c;font-weight:bold;
+ font-size:17px;margin-top:12px;
+}
+.buy{
+ width:100%;margin-top:12px;padding:10px;
+ border:0;border-radius:6px;
+ background:#e6b83d;color:#15120b;
+ font-weight:bold;
+}
+.empty{display:none;color:#999;font-size:13px;padding:20px 0}
+nav{
+ position:fixed;bottom:0;left:0;width:100%;
+ height:70px;background:#111218;
+ border-top:1px solid #292a30;
+ display:flex;justify-content:space-around;
+ align-items:center;z-index:20;
+}
+nav a{
+ text-decoration:none;color:#92939a;
+ font-size:11px;text-align:center;
+}
+nav a b{display:block;font-size:21px;margin-bottom:4px}
+nav a.active{color:#edbd40}
+footer{text-align:center;padding:25px;color:#777;font-size:11px}
+</style>
 </head>
+
 <body>
 
-  <canvas id="bg-particles"></canvas>
+<header>
+ <div class="logo">AIM SERVER <span>4.7</span></div>
+ <div class="menu">☰</div>
+ <div class="profile">👤</div>
+</header>
 
-  <!-- Top Bar -->
-  <div class="top-bar">
-    <div class="brand">
-      <div class="brand-logo">DINU<br>HUB</div>
-      <div class="brand-text">
-        <h2>DINU STORE</h2>
-        <span>BUY KEYS INSTANTLY</span>
-      </div>
-    </div>
-    <div class="header-actions">
-      <a href="#" onclick="switchTab('contact'); return false;" class="help-pill">🎧 24×7 Help</a>
-    </div>
+<main class="container">
+
+ <div class="welcome">WELCOME TO OUR STORE</div>
+ <h2>PREMIUM <span>GAMING STORE</span></h2>
+
+ <section class="banner">
+  <small>✦ PREMIUM COLLECTION</small>
+  <h1>UPGRADE YOUR<br>GAMING EXPERIENCE</h1>
+  <p>Explore our premium digital gaming products.</p>
+  <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
+   EXPLORE NOW →
+  </button>
+ </section>
+
+ <div class="section-title">
+  <h3>Categories</h3>
+  <span>VIEW ALL →</span>
+ </div>
+
+ <div class="categories">
+  <div class="category active" onclick="filterCategory('All',this)">
+   <b>🔥</b>All
+  </div>
+  <div class="category" onclick="filterCategory('Android',this)">
+   <b>🤖</b>Android
+  </div>
+  <div class="category" onclick="filterCategory('iOS',this)">
+   <b>🍎</b>iOS
+  </div>
+  <div class="category" onclick="filterCategory('PC',this)">
+   <b>💻</b>PC
+  </div>
+  <div class="category" onclick="filterCategory('Tools',this)">
+   <b>⚙️</b>Tools
+  </div>
+  <div class="category" onclick="filterCategory('Premium',this)">
+   <b>👑</b>Premium
+  </div>
+ </div>
+
+ <div class="section-title" id="products">
+  <h3>Premium Products</h3>
+  <span>OUR STORE</span>
+ </div>
+
+ <input class="search" id="search"
+ placeholder="🔍 Search products..."
+ oninput="searchProducts()">
+
+ <div class="products" id="productList">
+
+  <div class="product" data-category="Android">
+   <div class="product-img">🎮</div>
+   <div class="product-info">
+    <span class="tag">ANDROID</span>
+    <h4>Premium Gaming Pack</h4>
+    <p>Premium digital gaming package.</p>
+    <div class="price">₹199</div>
+    <button class="buy" onclick="contact()">BUY NOW</button>
+   </div>
   </div>
 
-  <div class="container">
-
-    <!-- 1. STORE TAB -->
-    <div id="tab-store" class="tab-section active">
-      <div class="hero-banner" id="hero-card">
-        <div class="hero-tag">⚡ MAIN ID SAFE • INSTANT KEY</div>
-        <h1>PRO GAMING TOOLS &amp; DIGITAL STORE</h1>
-        <button class="shop-btn" onclick="document.getElementById('searchInput').focus()">▶ Shop Now</button>
-      </div>
-
-      <!-- 4 Stats -->
-      <div class="stats-grid">
-        <div class="stat-box">
-          <div class="stat-icon">⚡</div>
-          <div class="stat-val">KEY SENT</div>
-          <div class="stat-lbl">Instant Delivery</div>
-          <div class="stat-sub">IMMEDIATELY</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-icon">🛡️</div>
-          <div class="stat-val">4.3K+</div>
-          <div class="stat-lbl">Delivered</div>
-          <div class="stat-sub">APPROVED ORDERS</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-icon">👥</div>
-          <div class="stat-val">1.1K+</div>
-          <div class="stat-lbl">Buyers</div>
-          <div class="stat-sub">HAPPY GAMERS</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-icon">📦</div>
-          <div class="stat-val">313</div>
-          <div class="stat-lbl">In Stock</div>
-          <div class="stat-sub">READY TO DELIVER</div>
-        </div>
-      </div>
-
-      <!-- Category Filters -->
-      <div class="filters">
-        <button class="filter-btn active" onclick="filterCategory('ALL', this)">ALL</button>
-        <button class="filter-btn" onclick="filterCategory('Android', this)">Android</button>
-        <button class="filter-btn" onclick="filterCategory('iOS', this)">iOS</button>
-        <button class="filter-btn" onclick="filterCategory('Root', this)">Root</button>
-      </div>
-
-      <!-- Search -->
-      <div class="search-box">
-        <span>🔍</span>
-        <input type="text" id="searchInput" placeholder="Search products, games, or keys..." oninput="renderProducts()" />
-      </div>
-
-      <!-- Products Grid -->
-      <div class="products-grid" id="productsGrid"></div>
-    </div>
-
-    <!-- 2. CONTACT TAB -->
-    <div id="tab-contact" class="tab-section">
-      <div class="section-header" style="text-align:center;">
-        <div class="section-eyebrow">GET IN TOUCH</div>
-        <h1>Contact <span style="color:var(--gold)">DINU STORE</span></h1>
-        <p>Need help with a key, an order, or a product? Reach us on Telegram or Instagram.</p>
-      </div>
-
-      <div class="info-card blue">
-        <div>
-          <div style="color:var(--cyan); font-size:0.68rem; font-weight:800;">OFFICIAL TELEGRAM CHANNEL</div>
-          <h3 style="font-size:1.05rem; margin:2px 0;">Telegram Channel</h3>
-          <div style="font-size:0.8rem; color:var(--text-muted);">t.me/your_channel</div>
-        </div>
-        <a href="https://t.me/your_channel" target="_blank" class="action-chip">JOIN NOW</a>
-      </div>
-
-      <div class="info-card purple">
-        <div>
-          <div style="color:#c084fc; font-size:0.68rem; font-weight:800;">SETUP CHANNEL</div>
-          <h3 style="font-size:1.05rem; margin:2px 0;">Setup &amp; Tutorials</h3>
-          <div style="font-size:0.8rem; color:var(--text-muted);">t.me/your_setup</div>
-        </div>
-        <a href="https://t.me/your_setup" target="_blank" class="action-chip">JOIN NOW</a>
-      </div>
-
-      <div class="info-card gold">
-        <div>
-          <div style="color:var(--gold); font-size:0.68rem; font-weight:800;">OWNER / SUPPORT</div>
-          <h3 style="font-size:1.05rem; margin:2px 0;">Direct Message</h3>
-          <div style="font-size:0.8rem; color:var(--text-muted);">@your_username</div>
-        </div>
-        <a href="https://t.me/your_username" target="_blank" class="action-chip">MESSAGE</a>
-      </div>
-    </div>
-
-    <!-- 3. ORDERS TAB -->
-    <div id="tab-orders" class="tab-section">
-      <div class="section-header">
-        <h1>Orders</h1>
-        <p>Your delivered digital keys will appear here.</p>
-      </div>
-      <div id="ordersContainer">
-        <div class="empty-box">
-          <div style="font-size:2.5rem; opacity:0.4; margin-bottom:10px;">📦</div>
-          <div style="color:var(--text-muted); margin-bottom:12px;">No orders yet.</div>
-          <button onclick="switchTab('store')" style="background:none; border:none; color:var(--gold); font-weight:800; font-size:0.95rem; cursor:pointer;">Browse products</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4. ALERTS TAB -->
-    <div id="tab-alerts" class="tab-section">
-      <div class="section-header" style="display:flex; justify-content:space-between; align-items:center;">
-        <div>
-          <div class="section-eyebrow">CUSTOMER CENTER</div>
-          <h1>Alerts</h1>
-        </div>
-        <span style="padding:4px 10px; border-radius:50px; border:1px solid var(--gold); color:var(--gold); font-size:0.75rem; font-weight:700;">1 unread</span>
-      </div>
-
-      <div class="alert-card unread">
-        <div class="alert-top">
-          <h3>📢 Latest Update Live</h3>
-          <span class="alert-date">Today</span>
-        </div>
-        <div class="alert-body">
-          All keys restocked and server status is 100% stable. Instant delivery active for Android, iOS &amp; Root builds.
-        </div>
-      </div>
-
-      <div class="alert-card">
-        <div class="alert-top">
-          <h3>🛡️ Server Status Stable</h3>
-          <span class="alert-date">2 days ago</span>
-        </div>
-        <div class="alert-body">
-          Cloud loader updated with faster ping and automatic key verification.
-        </div>
-      </div>
-    </div>
-
-    <!-- 5. ACCOUNT TAB -->
-    <div id="tab-account" class="tab-section">
-      <div class="alert-card" style="padding:24px; margin-top:10px;">
-        <div style="width:46px; height:46px; border-radius:12px; background:rgba(250,204,21,0.12); display:flex; align-items:center; justify-content:center; font-size:1.3rem; margin-bottom:14px;">🔑</div>
-        <h2 style="font-size:1.5rem; font-weight:900; margin-bottom:6px;">Guest account</h2>
-        <p style="color:var(--text-muted); font-size:0.88rem; margin-bottom:18px;">Sign in to view your profile and order history.</p>
-        <button class="shop-btn" style="border-radius:12px; padding:12px 24px;" onclick="alert('Login modal / Telegram Auth connect karein')">Sign in</button>
-      </div>
-
-      <div class="alert-card" style="padding:20px;">
-        <div style="color:var(--gold); font-size:1.1rem; margin-bottom:6px;">🔑</div>
-        <div id="purchaseCount" style="font-size:1.4rem; font-weight:900;">0</div>
-        <div style="color:var(--text-muted); font-size:0.82rem;">Recent Purchase</div>
-      </div>
-    </div>
-
+  <div class="product" data-category="iOS">
+   <div class="product-img">📱</div>
+   <div class="product-info">
+    <span class="tag">iOS</span>
+    <h4>iOS Premium Pack</h4>
+    <p>Digital premium gaming package.</p>
+    <div class="price">₹299</div>
+    <button class="buy" onclick="contact()">BUY NOW</button>
+   </div>
   </div>
 
-  <!-- Product Buy Modal -->
-  <div class="modal-backdrop" id="buyModal">
-    <div class="modal-box">
-      <h3 id="modalTitle" style="font-size:1.25rem; font-weight:900; margin-bottom:6px;">Product Name</h3>
-      <p id="modalPrice" style="color:var(--gold); font-weight:800; margin-bottom:16px;">₹199 / Day</p>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:20px;">Instant key delivery after payment confirmation.</p>
-      <div style="display:flex; gap:10px; justify-content:center;">
-        <button onclick="closeModal()" style="padding:10px 18px; border-radius:10px; background:#1e293b; color:#fff; border:none; font-weight:700;">Cancel</button>
-        <button onclick="confirmDemoOrder()" class="shop-btn" style="border-radius:10px;">Buy Now</button>
-      </div>
-    </div>
+  <div class="product" data-category="PC">
+   <div class="product-img">🖥️</div>
+   <div class="product-info">
+    <span class="tag">PC</span>
+    <h4>PC Gaming Pack</h4>
+    <p>Premium PC gaming collection.</p>
+    <div class="price">₹399</div>
+    <button class="buy" onclick="contact()">BUY NOW</button>
+   </div>
   </div>
 
-  <!-- Bottom 5-Tab Navigation -->
-  <nav class="bottom-nav">
-    <button class="nav-item active" onclick="switchTab('store', this)">
-      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x
+  <div class="product" data-category="Tools">
+   <div class="product-img">⚙️</div>
+   <div class="product-info">
+    <span class="tag">TOOLS</span>
+    <h4>Gaming Utility Pack</h4>
+    <p>Useful gaming utilities.</p>
+    <div class="price">₹149</div>
+    <button class="buy" onclick="contact()">BUY NOW</button>
+   </div>
+  </div>
+
+  <div class="product" data-category="Premium">
+   <div class="product-img">👑</div>
+   <div class="product-info">
+    <span class="tag">PREMIUM</span>
+    <h4>VIP Gaming Pack</h4>
+    <p>Exclusive digital collection.</p>
+    <div class="price">₹499</div>
+    <button class="buy" onclick="contact()">BUY NOW</button>
+   </div>
+  </div>
+
+ </div>
+
+ <div class="empty" id="empty">No products found.</div>
+
+</main>
+
+<footer>
+ © 2026 AIM SERVER 4.7<br><br>
+ PREMIUM GAMING DIGITAL STORE
+</footer>
+
+<nav>
+ <a href="#" class="active"><b>⌂</b>Home</a>
+ <a href="#products"><b>▣</b>Store</a>
+ <a href="#" onclick="contact()"><b>◉</b>Contact</a>
+ <a href="#" onclick="alert('Login system coming soon')"><b>♙</b>Account</a>
+</nav>
+
+<script>
+let currentCategory="All";
+
+function filterCategory(category,element){
+ currentCategory=category;
+ document.querySelectorAll(".category").forEach(c=>c.classList.remove("active"));
+ element.classList.add("active");
+ searchProducts();
+}
+
+function searchProducts(){
+ let search=document.getElementById("search").value.toLowerCase();
+ let cards=document.querySelectorAll(".product");
+ let count=0;
+
+ cards.forEach(card=>{
+  let category=card.dataset.category;
+  let matchCategory=currentCategory==="All"||category===currentCategory;
+  let matchSearch=card.innerText.toLowerCase().includes(search);
+  card.style.display=matchCategory&&matchSearch?"block":"none";
+  if(matchCategory&&matchSearch)count++;
+ });
+ document.getElementById("empty").style.display=count===0?"block":"none";
+}
+
+function contact(){
+ alert("Contact support will be available soon!");
+}
+</script>
+
+</body>
+</html>
