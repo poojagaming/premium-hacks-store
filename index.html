@@ -2,341 +2,670 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KURAMA 3D | Next-Gen Gaming Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>DINU STORE | Digital Gaming Portal</title>
   <style>
+    :root {
+      --bg-dark: #090a0f;
+      --card-bg: #12151e;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --gold: #facc15;
+      --gold-glow: rgba(250, 204, 21, 0.25);
+      --cyan: #38bdf8;
+      --green: #22c55e;
+      --text-main: #ffffff;
+      --text-muted: #94a3b8;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      background-color: #05070d;
-      color: #ffffff;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      padding-bottom: 90px;
       overflow-x: hidden;
     }
 
-    /* 3D Canvas Background */
-    #bg-canvas {
+    /* 3D Particle Canvas */
+    #bg-particles {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       z-index: -1;
+      pointer-events: none;
     }
 
-    /* Navbar */
-    header {
+    /* Top Header */
+    .top-bar {
+      margin: 12px;
+      padding: 10px 14px;
+      background: rgba(18, 21, 30, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 10px;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #3b82f6, #9333ea);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 0.75rem;
+      text-align: center;
+      line-height: 1.1;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .brand-text h2 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-text span {
+      font-size: 0.65rem;
+      color: var(--cyan);
+      font-weight: 700;
+      letter-spacing: 1px;
+      display: block;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .help-pill {
+      padding: 6px 12px;
+      border-radius: 50px;
+      border: 1px solid rgba(250, 204, 21, 0.4);
+      background: rgba(250, 204, 21, 0.08);
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Container */
+    .container {
+      max-width: 540px;
+      margin: 0 auto;
+      padding: 0 14px;
+    }
+
+    /* Tab Sections */
+    .tab-section {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+    .tab-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #2a1205 0%, #451a03 45%, #0f172a 100%);
+      border: 1px solid rgba(250, 204, 21, 0.35);
+      padding: 24px 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      transform-style: preserve-3d;
+      transition: transform 0.2s ease;
+    }
+
+    .hero-tag {
+      color: var(--gold);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .hero-banner h1 {
+      font-size: 1.5rem;
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    }
+
+    .shop-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gold);
+      color: #000;
+      font-weight: 800;
+      font-size: 0.9rem;
+      padding: 10px 20px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 15px var(--gold-glow);
+    }
+
+    /* 4 Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .stat-box {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 12px 6px;
+      text-align: center;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+    .stat-box:nth-child(1) { border-color: rgba(250, 204, 21, 0.4); }
+    .stat-box:nth-child(3) { border-color: rgba(34, 197, 94, 0.4); }
+    .stat-box:nth-child(4) { border-color: rgba(168, 85, 247, 0.4); }
+
+    .stat-icon { font-size: 1.1rem; margin-bottom: 4px; }
+    .stat-val { font-size: 0.85rem; font-weight: 800; }
+    .stat-lbl { font-size: 0.65rem; color: var(--text-muted); margin-top: 2px; }
+    .stat-sub { font-size: 0.52rem; color: #64748b; margin-top: 3px; text-transform: uppercase; }
+
+    /* Filter Pills */
+    .filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin-bottom: 12px;
+      scrollbar-width: none;
+    }
+    .filters::-webkit-scrollbar { display: none; }
+
+    .filter-btn {
+      padding: 8px 16px;
+      border-radius: 10px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .filter-btn.active {
+      background: var(--gold);
+      color: #000;
+      border-color: var(--gold);
+    }
+
+    /* Search Bar */
+    .search-box {
+      position: relative;
+      margin-bottom: 16px;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 12px 16px 12px 40px;
+      border-radius: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: #fff;
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .search-box input:focus { border-color: var(--gold); }
+    .search-box span {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    /* Product Cards Grid (3 Columns like screenshot) */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .product-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+      transform-style: preserve-3d;
+    }
+    .product-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      border-color: var(--gold);
+    }
+
+    .product-thumb {
+      height: 110px;
+      background: radial-gradient(circle at center, #1e293b 0%, #090a0f 100%);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+      text-align: center;
+      padding: 8px;
+    }
+
+    .badge-safe {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: var(--green);
+      color: #000;
+      font-size: 0.55rem;
+      font-weight: 900;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .badge-os {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: rgba(34, 197, 94, 0.2);
+      border: 1px solid var(--green);
+      color: var(--green);
+      font-size: 0.52rem;
+      font-weight: 800;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+
+    .product-info {
+      padding: 8px;
+    }
+    .product-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .product-price {
+      font-size: 0.72rem;
+      color: var(--gold);
+      font-weight: 800;
+      margin-top: 2px;
+    }
+
+    /* Contact / Alerts / Orders Cards */
+    .section-header {
+      margin: 10px 0 18px;
+    }
+    .section-eyebrow {
+      color: var(--gold);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .section-header h1 {
+      font-size: 1.7rem;
+      font-weight: 900;
+      margin: 4px 0;
+    }
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.4;
+    }
+
+    .info-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .info-card.blue { border-color: rgba(56, 189, 248, 0.35); background: linear-gradient(145deg, #0c1926, #12151e); }
+    .info-card.purple { border-color: rgba(168, 85, 247, 0.35); background: linear-gradient(145deg, #191026, #12151e); }
+    .info-card.gold { border-color: rgba(250, 204, 21, 0.35); background: linear-gradient(145deg, #211a08, #12151e); }
+
+    .action-chip {
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    /* Empty Box (Orders) */
+    .empty-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    /* Alert Card */
+    .alert-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .alert-card.unread { border-color: rgba(250, 204, 21, 0.45); }
+    .alert-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 18px 6%;
-      background: rgba(10, 14, 26, 0.65);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(0, 242, 254, 0.2);
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      margin-bottom: 8px;
+    }
+    .alert-top h3 { font-size: 1rem; font-weight: 800; }
+    .alert-date { font-size: 0.72rem; color: var(--text-muted); }
+    .alert-body { font-size: 0.85rem; color: #cbd5e1; line-height: 1.5; }
+
+    /* Bottom Floating Navigation Bar */
+    .bottom-nav {
+      position: fixed;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+      max-width: 520px;
+      margin: 0 auto;
+      background: rgba(18, 21, 30, 0.92);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 22px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      padding: 6px;
+      z-index: 100;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
     }
 
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 800;
-      letter-spacing: 2px;
-      background: linear-gradient(90deg, #00f2fe, #4facfe, #f093fb);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .tg-nav {
-      padding: 8px 16px;
-      border-radius: 8px;
-      background: rgba(0, 242, 254, 0.15);
-      border: 1px solid #00f2fe;
-      color: #00f2fe;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      transition: 0.3s;
-    }
-
-    .tg-nav:hover {
-      background: #00f2fe;
-      color: #05070d;
-      box-shadow: 0 0 15px #00f2fe;
-    }
-
-    /* Hero Section */
-    .hero {
-      min-height: 85vh;
+    .nav-item {
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    .badge {
-      padding: 6px 14px;
-      border-radius: 50px;
-      background: rgba(240, 147, 251, 0.15);
-      border: 1px solid rgba(240, 147, 251, 0.5);
-      color: #f093fb;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      margin-bottom: 18px;
-      text-transform: uppercase;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.2rem, 6vw, 4rem);
-      font-weight: 900;
-      line-height: 1.15;
-      margin-bottom: 16px;
-      text-shadow: 0 0 25px rgba(0, 242, 254, 0.4);
-    }
-
-    .hero p {
-      max-width: 600px;
-      color: #b0b8d1;
-      font-size: 1.05rem;
-      line-height: 1.6;
-      margin-bottom: 32px;
-    }
-
-    /* Action Buttons */
-    .btn-group {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
       justify-content: center;
-    }
-
-    .btn-primary {
-      padding: 15px 34px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-      color: #05070d;
-      font-weight: 800;
-      font-size: 1rem;
-      text-decoration: none;
-      box-shadow: 0 0 25px rgba(0, 242, 254, 0.5);
-      transition: transform 0.25s, box-shadow 0.25s;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 0 35px rgba(0, 242, 254, 0.85);
-    }
-
-    .btn-secondary {
-      padding: 15px 30px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #ffffff;
-      font-weight: 700;
-      font-size: 1rem;
-      text-decoration: none;
-      backdrop-filter: blur(8px);
-      transition: 0.25s;
-    }
-
-    .btn-secondary:hover {
-      border-color: #f093fb;
-      color: #f093fb;
-    }
-
-    /* 3D Tilt Glass Cards */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 22px;
-      max-width: 1100px;
-      margin: 0 auto 80px;
-      padding: 0 6%;
-    }
-
-    .card {
-      background: rgba(15, 22, 42, 0.6);
-      border: 1px solid rgba(0, 242, 254, 0.2);
+      padding: 8px 4px;
       border-radius: 16px;
-      padding: 28px;
-      backdrop-filter: blur(12px);
-      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      border: none;
+      background: transparent;
     }
 
-    .card:hover {
-      transform: translateY(-8px);
-      border-color: #00f2fe;
-      box-shadow: 0 12px 30px rgba(0, 242, 254, 0.2);
+    .nav-item svg {
+      width: 20px;
+      height: 20px;
+      margin-bottom: 4px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
     }
 
-    .card h3 {
-      color: #00f2fe;
-      font-size: 1.25rem;
-      margin-bottom: 10px;
+    .nav-item.active {
+      background: rgba(250, 204, 21, 0.15);
+      color: var(--gold);
     }
 
-    .card p {
-      color: #9aa5c4;
-      font-size: 0.95rem;
-      line-height: 1.5;
+    /* Purchase Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 200;
     }
-
-    footer {
+    .modal-backdrop.open { display: flex; }
+    .modal-box {
+      background: #141824;
+      border: 1px solid rgba(250, 204, 21, 0.4);
+      border-radius: 20px;
+      padding: 22px;
+      width: 100%;
+      max-width: 380px;
       text-align: center;
-      padding: 24px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      color: #6c7899;
-      font-size: 0.85rem;
-      background: rgba(5, 7, 13, 0.8);
     }
   </style>
 </head>
 <body>
 
-  <!-- 3D Background Canvas -->
-  <canvas id="bg-canvas"></canvas>
+  <canvas id="bg-particles"></canvas>
 
-  <!-- Header -->
-  <header>
-    <div class="logo">DINU 3D HUB</div>
-    <a href="https://t.me/+yMOqClSKuaViNjQ1" target="_blank" class="tg-nav">Join Telegram</a>
-  </header>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="badge">v4.3 Latest Release • Android 6 - 17</div>
-    <h1>NEXT-GEN 3D GAMING &amp; TOOLS PORTAL</h1>
-    <p>
-      Experience ultra-smooth performance, custom 3D interface, and instant cloud updates directly on your Android device.
-    </p>
-    <div class="btn-group">
-      <a href="#download-link" class="btn-primary">DOWNLOAD APK (v4.3)</a>
-      <a href="https://t.me/your_channel" target="_blank" class="btn-secondary">TELEGRAM UPDATES</a>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="brand">
+      <div class="brand-logo">DINU<br>HUB</div>
+      <div class="brand-text">
+        <h2>DINU STORE</h2>
+        <span>BUY KEYS INSTANTLY</span>
+      </div>
     </div>
-  </section>
-
-  <!-- Features Grid -->
-  <section class="features">
-    <div class="card">
-      <h3>⚡ Ultra Fast Engine</h3>
-      <p>Optimized lightweight build for zero lag and instant loading on all mobile devices.</p>
+    <div class="header-actions">
+      <a href="#" onclick="switchTab('contact'); return false;" class="help-pill">🎧 24×7 Help</a>
     </div>
-    <div class="card">
-      <h3>🛡️ Cloud Auto-Sync</h3>
-      <p>Real-time server configuration updates without needing to reinstall the application.</p>
+  </div>
+
+  <div class="container">
+
+    <!-- 1. STORE TAB -->
+    <div id="tab-store" class="tab-section active">
+      <div class="hero-banner" id="hero-card">
+        <div class="hero-tag">⚡ MAIN ID SAFE • INSTANT KEY</div>
+        <h1>PRO GAMING TOOLS &amp; DIGITAL STORE</h1>
+        <button class="shop-btn" onclick="document.getElementById('searchInput').focus()">▶ Shop Now</button>
+      </div>
+
+      <!-- 4 Stats -->
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-icon">⚡</div>
+          <div class="stat-val">KEY SENT</div>
+          <div class="stat-lbl">Instant Delivery</div>
+          <div class="stat-sub">IMMEDIATELY</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-icon">🛡️</div>
+          <div class="stat-val">4.3K+</div>
+          <div class="stat-lbl">Delivered</div>
+          <div class="stat-sub">APPROVED ORDERS</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-icon">👥</div>
+          <div class="stat-val">1.1K+</div>
+          <div class="stat-lbl">Buyers</div>
+          <div class="stat-sub">HAPPY GAMERS</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-icon">📦</div>
+          <div class="stat-val">313</div>
+          <div class="stat-lbl">In Stock</div>
+          <div class="stat-sub">READY TO DELIVER</div>
+        </div>
+      </div>
+
+      <!-- Category Filters -->
+      <div class="filters">
+        <button class="filter-btn active" onclick="filterCategory('ALL', this)">ALL</button>
+        <button class="filter-btn" onclick="filterCategory('Android', this)">Android</button>
+        <button class="filter-btn" onclick="filterCategory('iOS', this)">iOS</button>
+        <button class="filter-btn" onclick="filterCategory('Root', this)">Root</button>
+      </div>
+
+      <!-- Search -->
+      <div class="search-box">
+        <span>🔍</span>
+        <input type="text" id="searchInput" placeholder="Search products, games, or keys..." oninput="renderProducts()" />
+      </div>
+
+      <!-- Products Grid -->
+      <div class="products-grid" id="productsGrid"></div>
     </div>
-    <div class="card">
-      <h3>🎮 Multi-Device Support</h3>
-      <p>Fully compatible with Android 6 through Android 17 with modern 64-bit architecture.</p>
+
+    <!-- 2. CONTACT TAB -->
+    <div id="tab-contact" class="tab-section">
+      <div class="section-header" style="text-align:center;">
+        <div class="section-eyebrow">GET IN TOUCH</div>
+        <h1>Contact <span style="color:var(--gold)">DINU STORE</span></h1>
+        <p>Need help with a key, an order, or a product? Reach us on Telegram or Instagram.</p>
+      </div>
+
+      <div class="info-card blue">
+        <div>
+          <div style="color:var(--cyan); font-size:0.68rem; font-weight:800;">OFFICIAL TELEGRAM CHANNEL</div>
+          <h3 style="font-size:1.05rem; margin:2px 0;">Telegram Channel</h3>
+          <div style="font-size:0.8rem; color:var(--text-muted);">t.me/your_channel</div>
+        </div>
+        <a href="https://t.me/your_channel" target="_blank" class="action-chip">JOIN NOW</a>
+      </div>
+
+      <div class="info-card purple">
+        <div>
+          <div style="color:#c084fc; font-size:0.68rem; font-weight:800;">SETUP CHANNEL</div>
+          <h3 style="font-size:1.05rem; margin:2px 0;">Setup &amp; Tutorials</h3>
+          <div style="font-size:0.8rem; color:var(--text-muted);">t.me/your_setup</div>
+        </div>
+        <a href="https://t.me/your_setup" target="_blank" class="action-chip">JOIN NOW</a>
+      </div>
+
+      <div class="info-card gold">
+        <div>
+          <div style="color:var(--gold); font-size:0.68rem; font-weight:800;">OWNER / SUPPORT</div>
+          <h3 style="font-size:1.05rem; margin:2px 0;">Direct Message</h3>
+          <div style="font-size:0.8rem; color:var(--text-muted);">@your_username</div>
+        </div>
+        <a href="https://t.me/your_username" target="_blank" class="action-chip">MESSAGE</a>
+      </div>
     </div>
-  </section>
 
-  <footer>
-    &copy; 2026 DINU 3D HUB. All Rights Reserved.
-  </footer>
+    <!-- 3. ORDERS TAB -->
+    <div id="tab-orders" class="tab-section">
+      <div class="section-header">
+        <h1>Orders</h1>
+        <p>Your delivered digital keys will appear here.</p>
+      </div>
+      <div id="ordersContainer">
+        <div class="empty-box">
+          <div style="font-size:2.5rem; opacity:0.4; margin-bottom:10px;">📦</div>
+          <div style="color:var(--text-muted); margin-bottom:12px;">No orders yet.</div>
+          <button onclick="switchTab('store')" style="background:none; border:none; color:var(--gold); font-weight:800; font-size:0.95rem; cursor:pointer;">Browse products</button>
+        </div>
+      </div>
+    </div>
 
-  <!-- Three.js CDN for Real 3D Graphics -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script>
-    const canvas = document.getElementById('bg-canvas');
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    <!-- 4. ALERTS TAB -->
+    <div id="tab-alerts" class="tab-section">
+      <div class="section-header" style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div class="section-eyebrow">CUSTOMER CENTER</div>
+          <h1>Alerts</h1>
+        </div>
+        <span style="padding:4px 10px; border-radius:50px; border:1px solid var(--gold); color:var(--gold); font-size:0.75rem; font-weight:700;">1 unread</span>
+      </div>
 
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      <div class="alert-card unread">
+        <div class="alert-top">
+          <h3>📢 Latest Update Live</h3>
+          <span class="alert-date">Today</span>
+        </div>
+        <div class="alert-body">
+          All keys restocked and server status is 100% stable. Instant delivery active for Android, iOS &amp; Root builds.
+        </div>
+      </div>
 
-    // Main 3D Wireframe Core (Icosahedron)
-    const coreGeo = new THREE.IcosahedronGeometry(2.2, 1);
-    const coreMat = new THREE.MeshBasicMaterial({
-      color: 0x00f2fe,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.45
-    });
-    const coreMesh = new THREE.Mesh(coreGeo, coreMat);
-    scene.add(coreMesh);
+      <div class="alert-card">
+        <div class="alert-top">
+          <h3>🛡️ Server Status Stable</h3>
+          <span class="alert-date">2 days ago</span>
+        </div>
+        <div class="alert-body">
+          Cloud loader updated with faster ping and automatic key verification.
+        </div>
+      </div>
+    </div>
 
-    // Inner Glowing Sphere
-    const innerGeo = new THREE.OctahedronGeometry(1.2, 0);
-    const innerMat = new THREE.MeshBasicMaterial({
-      color: 0xf093fb,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.6
-    });
-    const innerMesh = new THREE.Mesh(innerGeo, innerMat);
-    scene.add(innerMesh);
+    <!-- 5. ACCOUNT TAB -->
+    <div id="tab-account" class="tab-section">
+      <div class="alert-card" style="padding:24px; margin-top:10px;">
+        <div style="width:46px; height:46px; border-radius:12px; background:rgba(250,204,21,0.12); display:flex; align-items:center; justify-content:center; font-size:1.3rem; margin-bottom:14px;">🔑</div>
+        <h2 style="font-size:1.5rem; font-weight:900; margin-bottom:6px;">Guest account</h2>
+        <p style="color:var(--text-muted); font-size:0.88rem; margin-bottom:18px;">Sign in to view your profile and order history.</p>
+        <button class="shop-btn" style="border-radius:12px; padding:12px 24px;" onclick="alert('Login modal / Telegram Auth connect karein')">Sign in</button>
+      </div>
 
-    // 3D Floating Particles
-    const particlesGeo = new THREE.BufferGeometry();
-    const particlesCount = 600;
-    const posArray = new Float32Array(particlesCount * 3);
+      <div class="alert-card" style="padding:20px;">
+        <div style="color:var(--gold); font-size:1.1rem; margin-bottom:6px;">🔑</div>
+        <div id="purchaseCount" style="font-size:1.4rem; font-weight:900;">0</div>
+        <div style="color:var(--text-muted); font-size:0.82rem;">Recent Purchase</div>
+      </div>
+    </div>
 
-    for (let i = 0; i < particlesCount * 3; i++) {
-      posArray[i] = (Math.random() - 0.5) * 18;
-    }
+  </div>
 
-    particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    const particlesMat = new THREE.PointsMaterial({
-      size: 0.035,
-      color: 0x4facfe
-    });
-    const particlesMesh = new THREE.Points(particlesGeo, particlesMat);
-    scene.add(particlesMesh);
+  <!-- Product Buy Modal -->
+  <div class="modal-backdrop" id="buyModal">
+    <div class="modal-box">
+      <h3 id="modalTitle" style="font-size:1.25rem; font-weight:900; margin-bottom:6px;">Product Name</h3>
+      <p id="modalPrice" style="color:var(--gold); font-weight:800; margin-bottom:16px;">₹199 / Day</p>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:20px;">Instant key delivery after payment confirmation.</p>
+      <div style="display:flex; gap:10px; justify-content:center;">
+        <button onclick="closeModal()" style="padding:10px 18px; border-radius:10px; background:#1e293b; color:#fff; border:none; font-weight:700;">Cancel</button>
+        <button onclick="confirmDemoOrder()" class="shop-btn" style="border-radius:10px;">Buy Now</button>
+      </div>
+    </div>
+  </div>
 
-    camera.position.z = 6;
-
-    // Interactive Touch / Mouse Tilt
-    let targetX = 0;
-    let targetY = 0;
-
-    document.addEventListener('mousemove', (e) => {
-      targetX = (e.clientX / window.innerWidth - 0.5) * 2;
-      targetY = (e.clientY / window.innerHeight - 0.5) * 2;
-    });
-
-    document.addEventListener('touchmove', (e) => {
-      if (e.touches.length > 0) {
-        targetX = (e.touches[0].clientX / window.innerWidth - 0.5) * 2;
-        targetY = (e.touches[0].clientY / window.innerHeight - 0.5) * 2;
-      }
-    });
-
-    // Animation Loop
-    function animate() {
-      requestAnimationFrame(animate);
-
-      coreMesh.rotation.y += 0.004;
-      coreMesh.rotation.x += 0.002;
-
-      innerMesh.rotation.y -= 0.008;
-      innerMesh.rotation.z += 0.005;
-
-      particlesMesh.rotation.y += 0.001;
-
-      // Smooth follow
-      coreMesh.position.x += (targetX * 0.5 - coreMesh.position.x) * 0.05;
-      coreMesh.position.y += (-targetY * 0.5 - coreMesh.position.y) * 0.05;
-
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    // Responsive Resize
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-  </script>
-</body>
-</html>
+  <!-- Bottom 5-Tab Navigation -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="switchTab('store', this)">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x
