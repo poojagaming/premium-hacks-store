@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXORA | Admin Panel</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b0915;color:#fff;font-family:Arial,sans-serif}
+main{max-width:440px;margin:60px auto;padding:20px}
+.card{background:#171326;border:1px solid #38265c;border-radius:16px;padding:24px}
+h1{color:#b78aff;text-align:center}
+p{color:#aaa;text-align:center}
+input,button{width:100%;padding:14px;margin-top:12px;border-radius:9px;border:1px solid #49366c;background:#100d1c;color:white}
+button{background:#762bea;border:0;font-weight:bold;cursor:pointer}
+#dashboard{display:none}
+#status{font-size:14px;color:#c9aaff}
+</style>
+</head>
+<body>
+<main>
+<section class="card" id="login">
+<h1>NEXORA ADMIN</h1>
+<p>Owner Login</p>
+<form id="loginForm">
+<input id="email" type="email" placeholder="Admin Email" required>
+<input id="password" type="password" placeholder="Password" required>
+<button type="submit">LOGIN</button>
+</form>
+<p id="status"></p>
+</section>
+
+<section class="card" id="dashboard">
+<h1>ADMIN DASHBOARD</h1>
+<p id="welcome"></p>
+<p>Welcome to your website control panel.</p>
+<button onclick="logout()">LOGOUT</button>
+</section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script>
+const loginBox=document.getElementById("login");
+const dashboard=document.getElementById("dashboard");
+const statusBox=document.getElementById("status");
+
+async function checkAdmin(){
+  const {data:{user}}=await db.auth.getUser();
+  if(!user)return;
+
+  const {data,error}=await db
+    .from("profiles")
+    .select("role")
+    .eq("id",user.id)
+    .single();
+
+  if(error || data?.role!=="admin"){
+    await db.auth.signOut();
+    statusBox.textContent="Admin access denied.";
+    return;
+  }
+
+  loginBox.style.display="none";
+  dashboard.style.display="block";
+  document.getElementById("welcome").textContent=user.email;
+}
+
+document.getElementById("loginForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  statusBox.textContent="Checking login...";
+
+  const {error}=await db.auth.signInWithPassword({
+    email:document.getElementById("email").value,
+    password:document.getElementById("password").value
+  });
+
+  if(error){
+    statusBox.textContent=error.message;
+    return;
+  }
+  await checkAdmin();
+});
+
+async function logout(){
+  await db.auth.signOut();
+  location.reload();
+}
+
+checkAdmin();
+</script>
+</body>
+</html>
