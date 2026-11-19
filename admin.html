@@ -3,89 +3,253 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NEXORA | Admin Panel</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEXORA Admin Panel</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#0b0915;color:#fff;font-family:Arial,sans-serif}
-main{max-width:440px;margin:60px auto;padding:20px}
-.card{background:#171326;border:1px solid #38265c;border-radius:16px;padding:24px}
-h1{color:#b78aff;text-align:center}
-p{color:#aaa;text-align:center}
-input,button{width:100%;padding:14px;margin-top:12px;border-radius:9px;border:1px solid #49366c;background:#100d1c;color:white}
+header{padding:18px;background:#171326;border-bottom:1px solid #38265c}
+header h2{margin:0;color:#c39aff}
+main{max-width:850px;margin:auto;padding:16px}
+.card{background:#171326;border:1px solid #38265c;border-radius:14px;padding:18px;margin-bottom:16px}
+h3{color:#c39aff;margin-top:0}
+input,select,textarea,button{width:100%;padding:12px;margin:7px 0;border-radius:8px;border:1px solid #49366c;background:#100d1c;color:white}
+textarea{min-height:75px;resize:vertical}
 button{background:#762bea;border:0;font-weight:bold;cursor:pointer}
-#dashboard{display:none}
-#status{font-size:14px;color:#c9aaff}
+button:disabled{opacity:.5}
+.danger{background:#a52b45}
+.secondary{background:#40345b}
+.product{display:flex;gap:12px;align-items:center;border-bottom:1px solid #38265c;padding:12px 0}
+.product img{width:65px;height:65px;object-fit:cover;border-radius:9px;background:#292039}
+.product-info{flex:1;min-width:0}
+.product-info p{margin:5px 0;color:#bcb2cc;font-size:13px;overflow-wrap:anywhere}
+.product button{width:auto;padding:9px 12px}
+#app{display:none}
+#status,#loginStatus{color:#d6baff;font-size:14px}
+.small{color:#aaa;font-size:12px}
 </style>
 </head>
 <body>
+<header><h2>NEXORA ADMIN</h2></header>
+
 <main>
 <section class="card" id="login">
-<h1>NEXORA ADMIN</h1>
-<p>Owner Login</p>
+<h3>Admin Login</h3>
 <form id="loginForm">
-<input id="email" type="email" placeholder="Admin Email" required>
+<input id="email" type="email" placeholder="Admin email" required>
 <input id="password" type="password" placeholder="Password" required>
 <button type="submit">LOGIN</button>
 </form>
-<p id="status"></p>
+<p id="loginStatus"></p>
 </section>
 
-<section class="card" id="dashboard">
-<h1>ADMIN DASHBOARD</h1>
+<div id="app">
+<section class="card">
+<h3>Dashboard</h3>
 <p id="welcome"></p>
-<p>Welcome to your website control panel.</p>
-<button onclick="logout()">LOGOUT</button>
+<p id="totalProducts">Products: Loading...</p>
+<button class="secondary" onclick="logout()">LOGOUT</button>
 </section>
+
+<section class="card">
+<h3>Add New Product</h3>
+<form id="productForm">
+<label>Product Name</label>
+<input id="name" maxlength="120" placeholder="Enter product name" required>
+
+<label>Category</label>
+<select id="category" required>
+<option value="">Loading categories...</option>
+</select>
+
+<label>Description</label>
+<textarea id="description" placeholder="Product details"></textarea>
+
+<label>Version</label>
+<input id="version" maxlength="40" placeholder="e.g. 4.7">
+
+<label>Price (INR)</label>
+<input id="price" type="number" min="0" step="0.01" value="0" required>
+
+<label>Product Image</label>
+<input id="image" type="file" accept="image/png,image/jpeg,image/webp">
+
+<label>Download Link</label>
+<input id="download" type="url" placeholder="https://...">
+
+<label>Display Order</label>
+<input id="sort" type="number" value="0">
+
+<button id="saveButton" type="submit">ADD PRODUCT</button>
+<p id="status"></p>
+</form>
+</section>
+
+<section class="card">
+<h3>Manage Products</h3>
+<div id="productList">Loading products...</div>
+</section>
+</div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
 <script>
 const loginBox=document.getElementById("login");
-const dashboard=document.getElementById("dashboard");
+const app=document.getElementById("app");
+const loginStatus=document.getElementById("loginStatus");
 const statusBox=document.getElementById("status");
+
+function safe(value){
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[c]);
+}
 
 async function checkAdmin(){
   const {data:{user}}=await db.auth.getUser();
   if(!user)return;
 
   const {data,error}=await db
-    .from("profiles")
-    .select("role")
-    .eq("id",user.id)
-    .single();
+    .from("profiles").select("role")
+    .eq("id",user.id).single();
 
   if(error || data?.role!=="admin"){
     await db.auth.signOut();
-    statusBox.textContent="Admin access denied.";
+    loginStatus.textContent="Admin access denied.";
     return;
   }
 
   loginBox.style.display="none";
-  dashboard.style.display="block";
-  document.getElementById("welcome").textContent=user.email;
+  app.style.display="block";
+  document.getElementById("welcome").textContent="Logged in: "+user.email;
+  await loadCategories();
+  await loadProducts();
 }
 
 document.getElementById("loginForm").addEventListener("submit",async e=>{
   e.preventDefault();
-  statusBox.textContent="Checking login...";
-
+  loginStatus.textContent="Checking login...";
   const {error}=await db.auth.signInWithPassword({
     email:document.getElementById("email").value,
     password:document.getElementById("password").value
   });
-
-  if(error){
-    statusBox.textContent=error.message;
-    return;
-  }
+  if(error){loginStatus.textContent=error.message;return;}
   await checkAdmin();
 });
 
 async function logout(){
   await db.auth.signOut();
   location.reload();
+}
+
+async function loadCategories(){
+  const {data,error}=await db.from("categories")
+    .select("id,name").order("sort_order");
+  if(error){statusBox.textContent=error.message;return;}
+
+  const select=document.getElementById("category");
+  select.innerHTML='<option value="">Select category</option>';
+  data.forEach(c=>{
+    const option=document.createElement("option");
+    option.value=c.id;
+    option.textContent=c.name;
+    select.appendChild(option);
+  });
+}
+
+async function loadProducts(){
+  const list=document.getElementById("productList");
+  list.textContent="Loading products...";
+
+  const {data,error}=await db.from("products")
+    .select("id,name,price,version,image_url,categories(name)")
+    .order("created_at",{ascending:false});
+
+  if(error){list.textContent=error.message;return;}
+
+  document.getElementById("totalProducts").textContent=
+    "Total products: "+data.length;
+
+  if(!data.length){list.textContent="No products added yet.";return;}
+
+  list.innerHTML=data.map(p=>`
+    <div class="product">
+      <img src="${safe(p.image_url || '')}" alt="">
+      <div class="product-info">
+        <strong>${safe(p.name)}</strong>
+        <p>${safe(p.categories?.name || "No category")} · ₹${safe(p.price)} · ${safe(p.version || "")}</p>
+      </div>
+      <button class="danger" onclick="deleteProduct(${Number(p.id)})">Delete</button>
+    </div>
+  `).join("");
+}
+
+document.getElementById("productForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const button=document.getElementById("saveButton");
+  button.disabled=true;
+  statusBox.textContent="Saving product...";
+
+  try{
+    const name=document.getElementById("name").value.trim();
+    const categoryId=document.getElementById("category").value;
+    const price=Number(document.getElementById("price").value);
+    const file=document.getElementById("image").files[0];
+    let imageUrl=null;
+
+    if(!name || !categoryId) throw new Error("Name and category are required.");
+    if(!Number.isFinite(price) || price<0) throw new Error("Enter a valid price.");
+
+    if(file){
+      if(!["image/jpeg","image/png","image/webp"].includes(file.type))
+        throw new Error("Use JPG, PNG or WEBP image.");
+      if(file.size>5*1024*1024)
+        throw new Error("Image must be smaller than 5 MB.");
+
+      const ext=file.name.split(".").pop().toLowerCase();
+      const path="products/"+Date.now()+"-"+Math.random().toString(36).slice(2)+"."+ext;
+
+      const {error:uploadError}=await db.storage
+        .from("site-media").upload(path,file,{contentType:file.type});
+      if(uploadError) throw uploadError;
+
+      const {data:urlData}=db.storage.from("site-media").getPublicUrl(path);
+      imageUrl=urlData.publicUrl;
+    }
+
+    const product={
+      name,
+      category_id:Number(categoryId),
+      description:document.getElementById("description").value.trim(),
+      version:document.getElementById("version").value.trim(),
+      price,
+      image_url:imageUrl,
+      download_url:document.getElementById("download").value.trim() || null,
+      sort_order:Number(document.getElementById("sort").value)||0,
+      is_active:true
+    };
+
+    const {error}=await db.from("products").insert(product);
+    if(error) throw error;
+
+    document.getElementById("productForm").reset();
+    document.getElementById("price").value="0";
+    document.getElementById("sort").value="0";
+    statusBox.textContent="Product added successfully!";
+    await loadProducts();
+  }catch(error){
+    statusBox.textContent="Error: "+error.message;
+  }finally{
+    button.disabled=false;
+  }
+});
+
+async function deleteProduct(id){
+  if(!confirm("Delete this product?"))return;
+  const {error}=await db.from("products").delete().eq("id",id);
+  if(error){alert(error.message);return;}
+  await loadProducts();
 }
 
 checkAdmin();
