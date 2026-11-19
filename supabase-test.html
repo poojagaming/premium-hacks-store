@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supabase Connection Test</title>
+</head>
+<body>
+  <h2>Supabase Connection Test</h2>
+  <p id="status">Checking connection...</p>
+  <ul id="categories"></ul>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+
+  <script>
+    async function testConnection() {
+      const status = document.getElementById("status");
+
+      try {
+        const { data, error } = await db
+          .from("categories")
+          .select("name")
+          .order("sort_order");
+
+        if (error) throw error;
+
+        status.textContent = "Connected successfully!";
+
+        document.getElementById("categories").innerHTML =
+          data.map(item => `<li>${item.name}</li>`).join("");
+      } catch (error) {
+        status.textContent = "Connection failed: " + error.message;
+      }
+    }
+
+    testConnection();
+  </script>
+</body>
+</html>
