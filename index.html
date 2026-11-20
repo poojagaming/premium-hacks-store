@@ -9,108 +9,75 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{
- background:#0b0915;color:#fff;font-family:Arial,sans-serif;
- padding-bottom:85px;
-}
-header{
- height:65px;padding:0 18px;display:flex;
- align-items:center;justify-content:space-between;
- background:#171326;border-bottom:1px solid #38265c;
- position:sticky;top:0;z-index:10;
-}
+body{background:#0b0915;color:#fff;font-family:Arial,sans-serif;padding-bottom:85px}
+header{height:65px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;background:#171326;border-bottom:1px solid #38265c;position:sticky;top:0;z-index:10}
 .logo{font-size:19px;font-weight:900;color:#c39aff}
 .logo span{color:#fff}
-.profile{
- width:37px;height:37px;border-radius:50%;
- background:#292039;border:1px solid #7650a8;
- display:grid;place-items:center;font-size:19px;
-}
+.profile{width:37px;height:37px;border-radius:50%;background:#292039;border:1px solid #7650a8;display:grid;place-items:center;font-size:19px}
 .container{padding:18px;max-width:900px;margin:auto}
 .welcome{font-size:13px;color:#aaa;margin-bottom:8px}
 h2{font-size:23px;margin-bottom:15px}
 h2 span{color:#c39aff}
-.banner{
- min-height:170px;border-radius:15px;padding:23px 19px;
- background:linear-gradient(120deg,#291747,#11131c 65%,#202044);
- border:1px solid #68449a;
-}
+.banner{min-height:170px;border-radius:15px;padding:23px 19px;background:linear-gradient(120deg,#291747,#11131c 65%,#202044);border:1px solid #68449a}
 .banner small{color:#c39aff;letter-spacing:2px}
 .banner h1{font-size:27px;margin:13px 0 8px}
 .banner p{font-size:12px;color:#c0b8ce}
-.banner button{
- margin-top:17px;padding:11px 19px;background:#8b45e8;
- border:0;border-radius:6px;color:white;font-weight:bold;
-}
-.section-title{
- display:flex;justify-content:space-between;
- align-items:center;margin:26px 0 15px;
-}
+.banner button{margin-top:17px;padding:11px 19px;background:#8b45e8;border:0;border-radius:6px;color:white;font-weight:bold}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:26px 0 15px}
 .section-title h3{font-size:17px}
 .section-title span{font-size:12px;color:#c39aff}
-.categories{
- display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
-}
-.category{
- background:#171326;border:1px solid #38265c;
- border-radius:10px;text-align:center;padding:16px 5px;
- font-size:13px;color:#ccc;cursor:pointer;
-}
+.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.category{background:#171326;border:1px solid #38265c;border-radius:10px;text-align:center;padding:14px 5px;font-size:13px;color:#ccc;cursor:pointer}
 .category.active{border-color:#b77bff;color:#d6b0ff;background:#25183a}
-.search{
- width:100%;padding:14px 15px;background:#171326;
- border:1px solid #38265c;border-radius:9px;color:white;
- outline:none;font-size:14px;margin-bottom:14px;
-}
-.products{
- display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
- gap:12px;
-}
-.product{
- background:#171326;border:1px solid #38265c;
- border-radius:12px;overflow:hidden;min-width:0;
-}
-.product-img{
- height:85px;display:grid;place-items:center;
- background:#171326;
-}
-.product-img img{
- width:100%;height:100%;object-fit:contain;padding:8px;
-}
+.search{width:100%;padding:14px 15px;background:#171326;border:1px solid #38265c;border-radius:9px;color:white;outline:none;font-size:14px;margin-bottom:14px}
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.product{background:#171326;border:1px solid #38265c;border-radius:12px;overflow:hidden;min-width:0}
+.product-img{height:85px;display:grid;place-items:center;background:#171326}
+.product-img img{width:100%;height:100%;object-fit:contain;padding:8px}
 .product-info{padding:12px}
-.tag{
- display:inline-block;color:#d4a9ff;font-size:10px;
- background:#332348;padding:5px 8px;border-radius:4px;
-}
+.tag{display:inline-block;color:#d4a9ff;font-size:10px;background:#332348;padding:5px 8px;border-radius:4px}
 .product h4{font-size:14px;margin:10px 0 7px;overflow-wrap:anywhere}
 .product p{font-size:11px;color:#aaa;line-height:1.5}
-.version{margin-top:5px}
-.duration{
- width:100%;margin-top:12px;padding:10px;
- border:1px solid #49366c;border-radius:6px;
- background:#100d1c;color:white;
-}
+.duration{width:100%;margin-top:12px;padding:10px;border:1px solid #49366c;border-radius:6px;background:#100d1c;color:white}
 .price{color:#d6aaff;font-weight:bold;font-size:19px;margin-top:12px}
-.buy{
- width:100%;margin-top:12px;padding:11px;
- border:0;border-radius:6px;background:#8b45e8;
- color:white;font-weight:bold;cursor:pointer;
-}
+.buy,.primary{width:100%;margin-top:12px;padding:12px;border:0;border-radius:6px;background:#8b45e8;color:white;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
 .empty{display:none;color:#aaa;font-size:13px;padding:20px 0}
 .loading{color:#c39aff;font-size:13px;padding:20px 0}
-nav{
- position:fixed;bottom:0;left:0;width:100%;height:70px;
- background:#171326;border-top:1px solid #38265c;
- display:flex;justify-content:space-around;align-items:center;
- z-index:20;
-}
-nav a{text-decoration:none;color:#aaa;font-size:11px;text-align:center}
+nav{position:fixed;bottom:0;left:0;width:100%;height:70px;background:#171326;border-top:1px solid #38265c;display:flex;justify-content:space-around;align-items:center;z-index:20}
+nav a{text-decoration:none;color:#aaa;font-size:11px;text-align:center;cursor:pointer}
 nav a b{display:block;font-size:19px;margin-bottom:4px}
 nav a.active{color:#c39aff}
 footer{text-align:center;padding:25px;color:#777;font-size:11px}
-@media(max-width:350px){
- .products{grid-template-columns:1fr}
-}
+
+/* Checkout */
+#checkout{display:none;position:fixed;inset:0;background:#0b0915;z-index:50;overflow-y:auto;padding-bottom:35px}
+.checkout-header{position:sticky;top:0;background:#171326;border-bottom:1px solid #38265c;padding:15px;display:flex;align-items:center;gap:15px;z-index:2}
+.back{background:#302044;color:white;border:1px solid #68449a;border-radius:7px;padding:9px 13px}
+.checkout-wrap{max-width:650px;margin:auto;padding:18px}
+.checkout-title{font-size:22px;color:#d4a9ff;margin:10px 0 18px}
+.panel{background:#171326;border:1px solid #38265c;border-radius:12px;padding:15px;margin-bottom:15px}
+.panel h3{font-size:16px;margin-bottom:13px;color:#d4a9ff}
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gallery img{width:100%;height:145px;object-fit:contain;background:#100d1c;border:1px solid #49366c;border-radius:8px;padding:7px}
+.detail-name{font-size:20px;margin:12px 0 7px}
+.muted{color:#aaa;font-size:13px;line-height:1.6}
+.field{width:100%;margin-top:9px;padding:13px;background:#100d1c;border:1px solid #49366c;border-radius:7px;color:white;outline:none}
+.field option{background:#171326}
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.plan{border:1px solid #49366c;background:#100d1c;color:white;border-radius:8px;padding:13px 5px;text-align:center;cursor:pointer}
+.plan.active{border-color:#bd83ff;background:#332348;color:#e2c5ff}
+.plan strong{display:block;font-size:16px;margin-bottom:5px}
+.plan small{font-size:11px;color:#c5b5d8}
+.total{font-size:25px;color:#d6aaff;font-weight:bold;margin-top:12px}
+.qr{display:block;width:220px;height:220px;object-fit:contain;background:white;padding:8px;border-radius:10px;margin:15px auto}
+.center{text-align:center}
+.notice{background:#251b36;border:1px solid #68449a;border-radius:8px;padding:12px;font-size:12px;color:#d8c5ed;line-height:1.6;margin-top:12px}
+.status{font-size:13px;margin-top:12px;color:#d6aaff;line-height:1.6;overflow-wrap:anywhere}
+.file-input{width:100%;margin-top:12px;color:#ccc;font-size:12px}
+.secondary{width:100%;padding:12px;margin-top:10px;border:1px solid #68449a;border-radius:7px;background:#211832;color:#e0c6ff;font-weight:bold}
+.hidden{display:none!important}
+@media(max-width:350px){.products{grid-template-columns:1fr}}
 </style>
 </head>
 
@@ -122,7 +89,6 @@ footer{text-align:center;padding:25px;color:#777;font-size:11px}
 </header>
 
 <main class="container">
-
  <div class="welcome">WELCOME TO OUR STORE</div>
  <h2>PREMIUM <span>GAMING STORE</span></h2>
 
@@ -130,15 +96,10 @@ footer{text-align:center;padding:25px;color:#777;font-size:11px}
   <small>PREMIUM COLLECTION</small>
   <h1>EXPLORE OUR<br>GAMING APPS</h1>
   <p>Choose your preferred app and subscription duration.</p>
-  <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
-   EXPLORE NOW
-  </button>
+  <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">EXPLORE NOW</button>
  </section>
 
- <div class="section-title">
-  <h3>Categories</h3>
-  <span>OUR STORE</span>
- </div>
+ <div class="section-title"><h3>Categories</h3><span>OUR STORE</span></div>
 
  <div class="categories">
   <div class="category active" data-category="All">All</div>
@@ -153,25 +114,91 @@ footer{text-align:center;padding:25px;color:#777;font-size:11px}
  </div>
 
  <input class="search" id="search" placeholder="Search products...">
-
  <div class="loading" id="loading">Loading products...</div>
  <div class="products" id="productList"></div>
  <div class="empty" id="empty">No products found.</div>
-
 </main>
 
-<footer>
- © 2026 NEXORA GAMING<br><br>
- PREMIUM GAMING DIGITAL STORE
-</footer>
+<footer>© 2026 NEXORA GAMING<br><br>PREMIUM GAMING DIGITAL STORE</footer>
 
 <nav>
  <a href="#" class="active"><b>⌂</b>Store</a>
- <a href="#contact" onclick="contact()"><b>◉</b>Contact</a>
- <a href="#" onclick="comingSoon('Orders')"><b>▣</b>Orders</a>
- <a href="#" onclick="comingSoon('Alerts')"><b>♢</b>Alerts</a>
- <a href="#" onclick="comingSoon('Account')"><b>♙</b>Account</a>
+ <a href="#" onclick="contact();return false"><b>◉</b>Contact</a>
+ <a href="#" onclick="showOrders();return false"><b>▣</b>Orders</a>
+ <a href="#" onclick="comingSoon('Alerts');return false"><b>♢</b>Alerts</a>
+ <a href="#" onclick="comingSoon('Account');return false"><b>♙</b>Account</a>
 </nav>
+
+<!-- CHECKOUT PAGE -->
+<div id="checkout">
+ <div class="checkout-header">
+  <button class="back" onclick="closeCheckout()">← Back</button>
+  <strong>NEXORA CHECKOUT</strong>
+ </div>
+
+ <div class="checkout-wrap">
+  <h2 class="checkout-title">Complete Your Purchase</h2>
+
+  <div class="panel">
+   <div class="gallery" id="checkoutGallery"></div>
+   <div class="detail-name" id="checkoutName"></div>
+   <div class="muted" id="checkoutDescription"></div>
+   <div class="muted" id="checkoutVersion"></div>
+  </div>
+
+  <div class="panel">
+   <h3>Select Duration</h3>
+   <div class="plan-grid">
+    <button class="plan" data-days="1"><strong>1 Day</strong><small id="planPrice1">₹0</small></button>
+    <button class="plan" data-days="7"><strong>7 Days</strong><small id="planPrice7">₹0</small></button>
+    <button class="plan active" data-days="30"><strong>30 Days</strong><small id="planPrice30">₹0</small></button>
+   </div>
+   <div class="muted" style="margin-top:14px">Total Amount</div>
+   <div class="total" id="checkoutTotal">₹0</div>
+  </div>
+
+  <div class="panel" id="customerPanel">
+   <h3>Customer Details</h3>
+   <input class="field" id="customerName" placeholder="Your full name" maxlength="80">
+   <input class="field" id="customerPhone" placeholder="WhatsApp number" type="tel" inputmode="numeric" maxlength="15">
+   <button class="primary" id="createOrderBtn" onclick="createOrder()">CONTINUE TO PAYMENT</button>
+   <div class="status" id="createStatus"></div>
+  </div>
+
+  <div class="panel hidden" id="paymentPanel">
+   <h3>Complete UPI Payment</h3>
+   <div class="center">
+    <div class="muted">Scan this QR using any UPI app</div>
+    <img class="qr" id="paymentQR" alt="Payment QR">
+    <div class="total" id="paymentAmount">₹0</div>
+   </div>
+   <div class="notice">
+    1. Scan the QR code and pay the exact amount.<br>
+    2. Take a screenshot of successful payment.<br>
+    3. Upload the screenshot below.
+   </div>
+   <div class="muted" style="margin-top:14px">UPI ID</div>
+   <input class="field" id="upiId" readonly>
+   <button class="secondary" onclick="copyUPI()">COPY UPI ID</button>
+   <div class="muted" style="margin-top:14px">Payment Screenshot (JPG, PNG or WebP, maximum 5 MB)</div>
+   <input class="file-input" id="paymentFile" type="file" accept="image/jpeg,image/png,image/webp">
+   <button class="primary" id="uploadBtn" onclick="uploadProof()">SUBMIT PAYMENT SCREENSHOT</button>
+   <div class="status" id="uploadStatus"></div>
+  </div>
+
+  <div class="panel hidden" id="trackingPanel">
+   <h3>Order Status</h3>
+   <div class="status" id="trackingStatus">Your order is submitted for review.</div>
+   <button class="secondary" onclick="checkOrderStatus()">CHECK ORDER STATUS</button>
+   <div id="approvedKey" class="hidden">
+    <div class="notice">Your order has been approved. Your product key is:</div>
+    <div class="total" id="keyValue" style="font-size:18px;overflow-wrap:anywhere"></div>
+    <button class="secondary" onclick="copyKey()">COPY PRODUCT KEY</button>
+   </div>
+  </div>
+
+ </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
@@ -179,6 +206,12 @@ footer{text-align:center;padding:25px;color:#777;font-size:11px}
 <script>
 let allProducts=[];
 let currentCategory="All";
+let selectedProduct=null;
+let selectedDays=30;
+let currentOrderToken="";
+let currentUPI="";
+
+const $=id=>document.getElementById(id);
 
 function safe(value){
  return String(value??"").replace(/[&<>"']/g,c=>({
@@ -192,12 +225,15 @@ function money(value){
  return amount.toLocaleString("en-IN",{maximumFractionDigits:2});
 }
 
-async function loadProducts(){
- const loading=document.getElementById("loading");
- const list=document.getElementById("productList");
+function priceFor(product,days){
+ if(days===1)return Number(product.price_1_day??0);
+ if(days===7)return Number(product.price_7_days??0);
+ return Number(product.price_30_days??product.price??0);
+}
 
- loading.style.display="block";
- loading.textContent="Loading products...";
+async function loadProducts(){
+ $("loading").style.display="block";
+ $("loading").textContent="Loading products...";
 
  try{
   const {data,error}=await db.from("products")
@@ -206,73 +242,48 @@ async function loadProducts(){
    .order("sort_order",{ascending:true});
 
   if(error)throw error;
-
   allProducts=data||[];
-  loading.style.display="none";
-
+  $("loading").style.display="none";
   renderProducts();
-
  }catch(error){
-  loading.textContent="Products load nahi hue: "+error.message;
-  document.getElementById("productCount").textContent="Store";
+  $("loading").textContent="Products load nahi hue: "+error.message;
+  $("productCount").textContent="Store";
  }
 }
 
 function renderProducts(){
- const list=document.getElementById("productList");
- const search=document.getElementById("search").value.toLowerCase().trim();
-
+ const search=$("search").value.toLowerCase().trim();
  const filtered=allProducts.filter(p=>{
   const category=p.categories?.name||"";
-  const categoryMatch=currentCategory==="All"||category===currentCategory;
-  const searchMatch=(
-   (p.name||"")+" "+(p.description||"")+" "+category
-  ).toLowerCase().includes(search);
-
-  return categoryMatch&&searchMatch;
+  return (currentCategory==="All"||category===currentCategory)&&
+   ((p.name||"")+" "+(p.description||"")+" "+category).toLowerCase().includes(search);
  });
 
- document.getElementById("productCount").textContent=
-  allProducts.length+" PRODUCTS";
+ $("productCount").textContent=allProducts.length+" PRODUCTS";
+ $("empty").style.display=filtered.length===0?"block":"none";
 
- document.getElementById("empty").style.display=
-  filtered.length===0?"block":"none";
-
- list.innerHTML=filtered.map(p=>{
+ $("productList").innerHTML=filtered.map(p=>{
   const image=p.icon_url||p.image_url||"";
-  const category=p.categories?.name||"";
-  const price1=p.price_1_day??0;
-  const price7=p.price_7_days??0;
-  const price30=p.price_30_days??p.price??0;
-
+  const p30=priceFor(p,30);
   return `
    <div class="product">
     <div class="product-img">
      ${image?`<img src="${safe(image)}" alt="${safe(p.name)}">`:""}
     </div>
-
     <div class="product-info">
-     <span class="tag">${safe(category)}</span>
+     <span class="tag">${safe(p.categories?.name||"")}</span>
      <h4>${safe(p.name)}</h4>
      <p>${safe(p.description||"Premium digital product.")}</p>
-     <p class="version">Version: ${safe(p.version||"N/A")}</p>
-
+     <p>Version: ${safe(p.version||"N/A")}</p>
      <select class="duration" data-price-select="${safe(p.id)}">
-      <option value="1" data-price="${safe(price1)}">1 Day</option>
-      <option value="7" data-price="${safe(price7)}">7 Days</option>
-      <option value="30" data-price="${safe(price30)}" selected>30 Days</option>
+      <option value="1">1 Day - ₹${money(priceFor(p,1))}</option>
+      <option value="7">7 Days - ₹${money(priceFor(p,7))}</option>
+      <option value="30" selected>30 Days - ₹${money(p30)}</option>
      </select>
-
-     <div class="price" id="price-${safe(p.id)}">
-      ₹${money(price30)}
-     </div>
-
-     <button class="buy" data-buy="${safe(p.id)}">
-      BUY NOW
-     </button>
+     <div class="price" id="price-${safe(p.id)}">₹${money(p30)}</div>
+     <button class="buy" data-buy="${safe(p.id)}">BUY NOW</button>
     </div>
-   </div>
-  `;
+   </div>`;
  }).join("");
 }
 
@@ -285,48 +296,215 @@ document.querySelectorAll(".category").forEach(button=>{
  });
 });
 
-document.getElementById("search").addEventListener("input",renderProducts);
+$("search").addEventListener("input",renderProducts);
 
-document.getElementById("productList").addEventListener("change",e=>{
+$("productList").addEventListener("change",e=>{
  if(!e.target.matches("[data-price-select]"))return;
-
- const selected=e.target.selectedOptions[0];
- const price=selected.dataset.price;
  const id=e.target.dataset.priceSelect;
-
- document.getElementById("price-"+id).textContent="₹"+money(price);
-});
-
-document.getElementById("productList").addEventListener("click",e=>{
- const button=e.target.closest("[data-buy]");
- if(!button)return;
-
- const id=button.dataset.buy;
  const product=allProducts.find(p=>String(p.id)===String(id));
  if(!product)return;
-
- const select=document.querySelector(`[data-price-select="${CSS.escape(id)}"]`);
- const days=select.value;
- const price=select.selectedOptions[0].dataset.price;
-
- alert(
-  "Selected product: "+product.name+
-  "\nDuration: "+days+" Days"+
-  "\nPrice: ₹"+money(price)+
-  "\n\nPurchase system will be connected next."
- );
+ $("price-"+id).textContent="₹"+money(priceFor(product,Number(e.target.value)));
 });
 
-function contact(){
- alert("Contact support will be available soon!");
+$("productList").addEventListener("click",e=>{
+ const button=e.target.closest("[data-buy]");
+ if(!button)return;
+ const product=allProducts.find(p=>String(p.id)===String(button.dataset.buy));
+ if(product)openCheckout(product);
+});
+
+function openCheckout(product){
+ selectedProduct=product;
+ selectedDays=30;
+ currentOrderToken="";
+ currentUPI="";
+
+ $("checkout").style.display="block";
+ document.body.style.overflow="hidden";
+
+ const images=[...new Set([product.image_url,product.icon_url].filter(Boolean))];
+ $("checkoutGallery").innerHTML=images.length
+  ?images.map((url,i)=>`<img class="${images.length===1?"single":""}" src="${safe(url)}" alt="Product image ${i+1}">`).join("")
+  :'<div class="muted">Product image not available.</div>';
+
+ $("checkoutName").textContent=product.name||"Product";
+ $("checkoutDescription").textContent=product.description||"Premium digital product.";
+ $("checkoutVersion").textContent="Version: "+(product.version||"N/A");
+
+ $("planPrice1").textContent="₹"+money(priceFor(product,1));
+ $("planPrice7").textContent="₹"+money(priceFor(product,7));
+ $("planPrice30").textContent="₹"+money(priceFor(product,30));
+
+ document.querySelectorAll(".plan").forEach(b=>{
+  b.classList.toggle("active",Number(b.dataset.days)===30);
+ });
+
+ updateCheckoutPrice();
+
+ $("customerPanel").classList.remove("hidden");
+ $("paymentPanel").classList.add("hidden");
+ $("trackingPanel").classList.add("hidden");
+ $("createStatus").textContent="";
+ $("uploadStatus").textContent="";
+ $("customerName").value="";
+ $("customerPhone").value="";
+ $("paymentFile").value="";
 }
 
-function comingSoon(section){
- alert(section+" section will be available soon!");
+function closeCheckout(){
+ $("checkout").style.display="none";
+ document.body.style.overflow="";
 }
 
-loadProducts();
-</script>
+document.querySelectorAll(".plan").forEach(button=>{
+ button.addEventListener("click",()=>{
+  if(currentOrderToken)return;
+  selectedDays=Number(button.dataset.days);
+  document.querySelectorAll(".plan").forEach(b=>b.classList.toggle("active",b===button));
+  updateCheckoutPrice();
+ });
+});
 
-</body>
-</html>
+function updateCheckoutPrice(){
+ if(!selectedProduct)return;
+ $("checkoutTotal").textContent="₹"+money(priceFor(selectedProduct,selectedDays));
+}
+
+async function createOrder(){
+ if(!selectedProduct)return;
+
+ const name=$("customerName").value.trim();
+ const phone=$("customerPhone").value.replace(/\D/g,"");
+
+ if(name.length<2){
+  $("createStatus").textContent="Please enter your name.";
+  return;
+ }
+ if(phone.length<10||phone.length>15){
+  $("createStatus").textContent="Please enter a valid WhatsApp number.";
+  return;
+ }
+
+ const btn=$("createOrderBtn");
+ btn.disabled=true;
+ btn.textContent="PLEASE WAIT...";
+ $("createStatus").textContent="Creating your order...";
+
+ try{
+  const {data,error}=await db.functions.invoke("create-guest-order",{
+   body:{
+    product_id:selectedProduct.id,
+    plan_days:selectedDays,
+    guest_name:name,
+    guest_phone:phone
+   }
+  });
+
+  if(error)throw error;
+  if(!data||data.error)throw new Error(data?.error||"Order could not be created.");
+
+  currentOrderToken=data.access_token||data.token||"";
+  if(!currentOrderToken)throw new Error("Order created but access token was not returned.");
+
+  localStorage.setItem("nexora_guest_order_token",currentOrderToken);
+
+  const upiURI=data.upi_uri||"";
+  const amount=Number(data.amount??priceFor(selectedProduct,selectedDays));
+
+  if(!upiURI)throw new Error("UPI payment details were not returned by the server.");
+
+  try{
+   currentUPI=new URL(upiURI).searchParams.get("pa")||"";
+  }catch(e){}
+
+  $("paymentQR").src="https://api.qrserver.com/v1/create-qr-code/?size=260x260&data="+encodeURIComponent(upiURI);
+  $("paymentAmount").textContent="₹"+money(amount);
+  $("upiId").value=currentUPI||"UPI ID available in QR";
+  $("customerPanel").classList.add("hidden");
+  $("paymentPanel").classList.remove("hidden");
+  $("createStatus").textContent="";
+
+ }catch(error){
+  $("createStatus").textContent="Error: "+(error.message||"Please try again.");
+ }finally{
+  btn.disabled=false;
+  btn.textContent="CONTINUE TO PAYMENT";
+ }
+}
+
+async function uploadProof(){
+ if(!currentOrderToken){
+  $("uploadStatus").textContent="Order token missing. Please start again.";
+  return;
+ }
+
+ const file=$("paymentFile").files[0];
+ if(!file){
+  $("uploadStatus").textContent="Please select your payment screenshot.";
+  return;
+ }
+
+ const allowed=["image/jpeg","image/png","image/webp"];
+ if(!allowed.includes(file.type)){
+  $("uploadStatus").textContent="Only JPG, PNG or WebP images are allowed.";
+  return;
+ }
+ if(file.size>5*1024*1024){
+  $("uploadStatus").textContent="Image must be smaller than 5 MB.";
+  return;
+ }
+
+ const btn=$("uploadBtn");
+ btn.disabled=true;
+ btn.textContent="UPLOADING...";
+ $("uploadStatus").textContent="Uploading payment screenshot...";
+
+ try{
+  const form=new FormData();
+  form.append("access_token",currentOrderToken);
+  form.append("file",file);
+
+  const {data,error}=await db.functions.invoke("upload-payment-proof",{
+   body:form
+  });
+
+  if(error)throw error;
+  if(data?.error)throw new Error(data.error);
+
+  $("paymentPanel").classList.add("hidden");
+  $("trackingPanel").classList.remove("hidden");
+  $("trackingStatus").textContent="Payment screenshot submitted. Your order is pending admin verification.";
+  $("uploadStatus").textContent="";
+
+ }catch(error){
+  $("uploadStatus").textContent="Upload error: "+(error.message||"Please try again.");
+ }finally{
+  btn.disabled=false;
+  btn.textContent="SUBMIT PAYMENT SCREENSHOT";
+ }
+}
+
+async function checkOrderStatus(){
+ if(!currentOrderToken){
+  $("trackingStatus").textContent="No order token found.";
+  return;
+ }
+
+ $("trackingStatus").textContent="Checking order status...";
+
+ try{
+  const {data,error}=await db.functions.invoke("get-guest-order",{
+   body:{access_token:currentOrderToken}
+  });
+
+  if(error)throw error;
+  if(data?.error)throw new Error(data.error);
+
+  const status=String(data.status||"pending").toLowerCase();
+
+  if(status==="approved"){
+   $("trackingStatus").textContent="Your payment is approved!";
+   const key=data.key||data.product_key||"";
+   if(key){
+    $("approvedKey").classList.remove("hidden");
+    $("keyValue").textC
