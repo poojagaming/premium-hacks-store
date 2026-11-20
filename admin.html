@@ -5,49 +5,47 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>NEXORA Admin Panel</title>
-
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#0b0915;color:#fff;font-family:Arial,sans-serif}
+body{margin:0;background:#0b0915;color:white;font-family:Arial}
 header{padding:18px;background:#171326;border-bottom:1px solid #38265c}
 header h2{margin:0;color:#c39aff}
-main{max-width:850px;margin:auto;padding:16px}
-.card{background:#171326;border:1px solid #38265c;border-radius:14px;padding:18px;margin-bottom:16px}
+main{max-width:850px;margin:auto;padding:15px}
+.card{background:#171326;border:1px solid #38265c;border-radius:14px;padding:16px;margin-bottom:16px}
 h3{color:#c39aff;margin-top:0}
-input,select,textarea,button{
-width:100%;padding:12px;margin:7px 0;border-radius:8px;
-border:1px solid #49366c;background:#100d1c;color:white
-}
-textarea{min-height:75px;resize:vertical}
-button{background:#762bea;border:0;font-weight:bold;cursor:pointer}
+input,select,textarea,button{width:100%;padding:12px;margin:7px 0;border-radius:8px;border:1px solid #49366c;background:#100d1c;color:white}
+button{background:#762bea;border:0;font-weight:bold}
 button:disabled{opacity:.5}
 .danger{background:#a52b45}
 .secondary{background:#40345b}
-.product{display:flex;gap:12px;align-items:center;border-bottom:1px solid #38265c;padding:12px 0}
-.product img{width:65px;height:65px;object-fit:cover;border-radius:9px;background:#292039}
-.product-info{flex:1;min-width:0}
-.product-info p{margin:5px 0;color:#bcb2cc;font-size:13px;overflow-wrap:anywhere}
-.product button{width:auto;padding:9px 12px}
-#app{display:none}
-#status,#loginStatus{color:#d6baff;font-size:14px;overflow-wrap:anywhere}
-.small{color:#aaa;font-size:12px}
+.success{background:#188653}
 label{display:block;margin-top:10px;color:#d6baff}
+.small{font-size:12px;color:#aaa}
+.message{font-size:13px;color:#d6baff;overflow-wrap:anywhere}
+.product{display:flex;gap:12px;align-items:center;border-bottom:1px solid #38265c;padding:12px 0}
+.product img{width:60px;height:60px;object-fit:cover;border-radius:8px}
+.product-info{flex:1;min-width:0}
+.product-info p,.order p{font-size:13px;color:#bbb;margin:5px 0;overflow-wrap:anywhere}
+.product button{width:auto}
+.order{border-bottom:1px solid #49366c;padding:13px 0}
+.actions{display:flex;gap:6px;flex-wrap:wrap}
+.actions button{flex:1;min-width:90px}
+#app{display:none}
+.keybox{background:#100d1c;padding:12px;border-radius:8px;overflow-wrap:anywhere}
 </style>
 </head>
-
 <body>
 <header><h2>NEXORA ADMIN</h2></header>
-
 <main>
 
 <section class="card" id="login">
 <h3>Admin Login</h3>
 <form id="loginForm">
-<input id="email" type="email" placeholder="Admin email" required>
+<input id="email" type="email" placeholder="Admin Email" required>
 <input id="password" type="password" placeholder="Password" required>
-<button type="submit">LOGIN</button>
+<button>LOGIN</button>
 </form>
-<p id="loginStatus"></p>
+<p id="loginStatus" class="message"></p>
 </section>
 
 <div id="app">
@@ -55,58 +53,76 @@ label{display:block;margin-top:10px;color:#d6baff}
 <section class="card">
 <h3>Dashboard</h3>
 <p id="welcome"></p>
-<p id="totalProducts">Products: Loading...</p>
-<button class="secondary" id="logoutButton">LOGOUT</button>
+<p id="totalProducts">Products: 0</p>
+<p id="totalOrders">Orders: 0</p>
+<button class="secondary" id="logout">LOGOUT</button>
 </section>
 
 <section class="card">
 <h3>Add New Product</h3>
-
 <form id="productForm">
-
 <label>Product Name</label>
-<input id="name" maxlength="120" placeholder="Enter product name" required>
+<input id="name" required maxlength="120">
 
 <label>Category</label>
-<select id="category" required>
-<option value="">Loading categories...</option>
-</select>
+<select id="category" required></select>
 
 <label>Description</label>
-<textarea id="description" placeholder="Product details"></textarea>
+<textarea id="description"></textarea>
 
 <label>Version</label>
-<input id="version" maxlength="40" placeholder="e.g. 4.7">
+<input id="version">
 
-<label>Price - 1 Day (INR)</label>
-<input id="price1" type="number" min="0" step="0.01" value="0" required>
+<label>Price - 1 Day</label>
+<input id="price1" type="number" min="0" step=".01" value="0" required>
 
-<label>Price - 7 Days (INR)</label>
-<input id="price7" type="number" min="0" step="0.01" value="0" required>
+<label>Price - 7 Days</label>
+<input id="price7" type="number" min="0" step=".01" value="0" required>
 
-<label>Price - 30 Days (INR)</label>
-<input id="price30" type="number" min="0" step="0.01" value="0" required>
+<label>Price - 30 Days</label>
+<input id="price30" type="number" min="0" step=".01" value="0" required>
 
-<label>Upload APK (Maximum 50 MB)</label>
-<input id="apk" type="file" accept=".apk,application/vnd.android.package-archive" required>
+<label>APK Upload (Maximum 50 MB)</label>
+<input id="apk" type="file" accept=".apk" required>
 
-<p class="small">
-APK ka original icon automatic extract hoga. Alag image upload karne ki zaroorat nahi.
-</p>
+<p class="small">APK ka original icon automatically extract hoga.</p>
 
 <label>Display Order</label>
 <input id="sort" type="number" value="0">
 
-<button id="saveButton" type="submit">UPLOAD APK & ADD PRODUCT</button>
-
-<p id="status"></p>
-
+<button id="saveButton">UPLOAD APK & ADD PRODUCT</button>
+<p id="status" class="message"></p>
 </form>
 </section>
 
 <section class="card">
+<h3>Upload Product Keys</h3>
+<label>Select Product</label>
+<select id="keyProduct"></select>
+
+<label>TXT File (One key per line)</label>
+<input id="keyFile" type="file" accept=".txt">
+
+<p class="small">Ek file mein maximum 500 unique keys upload kar sakte ho.</p>
+<button id="uploadKeys">UPLOAD KEYS</button>
+<p id="keyStatus" class="message"></p>
+</section>
+
+<section class="card">
+<h3>Pending Orders</h3>
+<button class="secondary" id="refreshPending">REFRESH ORDERS</button>
+<div id="pendingOrders">Loading...</div>
+</section>
+
+<section class="card">
+<h3>All Orders</h3>
+<button class="secondary" id="refreshAll">REFRESH ALL ORDERS</button>
+<div id="allOrders">Loading...</div>
+</section>
+
+<section class="card">
 <h3>Manage Products</h3>
-<div id="productList">Loading products...</div>
+<div id="productList">Loading...</div>
 </section>
 
 </div>
@@ -119,32 +135,34 @@ APK ka original icon automatic extract hoga. Alag image upload karne ki zaroorat
 <script>
 const loginBox=document.getElementById("login");
 const app=document.getElementById("app");
-const loginStatus=document.getElementById("loginStatus");
-const statusBox=document.getElementById("status");
+const db=window.db || window.supabaseClient;
 
-function safe(value){
- return String(value ?? "").replace(/[&<>"']/g,c=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+function safe(v){
+ return String(v??"").replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
  })[c]);
 }
 
-function makeId(){
+function message(id,text){
+ document.getElementById(id).textContent=text;
+}
+
+function uniqueName(){
  return Date.now()+"-"+Math.random().toString(36).slice(2);
 }
 
 async function checkAdmin(){
  try{
-  const {data:{user},error:userError}=await db.auth.getUser();
+  const {data:{user},error}=await db.auth.getUser();
+  if(error) throw error;
+  if(!user)return;
 
-  if(userError) throw userError;
-  if(!user) return;
-
-  const {data,error}=await db.from("profiles")
+  const {data,error:profileError}=await db.from("profiles")
    .select("role").eq("id",user.id).single();
 
-  if(error || data?.role!=="admin"){
+  if(profileError || data?.role!=="admin"){
    await db.auth.signOut();
-   loginStatus.textContent="Admin access denied.";
+   message("loginStatus","Admin access denied.");
    return;
   }
 
@@ -154,48 +172,44 @@ async function checkAdmin(){
 
   await loadCategories();
   await loadProducts();
-
- }catch(error){
-  loginStatus.textContent="Error: "+error.message;
+  await loadKeyProducts();
+  await loadOrders();
+ }catch(e){
+  message("loginStatus","Error: "+e.message);
  }
 }
 
-document.getElementById("loginForm").addEventListener("submit",async e=>{
+document.getElementById("loginForm").onsubmit=async e=>{
  e.preventDefault();
- loginStatus.textContent="Checking login...";
+ message("loginStatus","Checking login...");
 
  const {error}=await db.auth.signInWithPassword({
   email:document.getElementById("email").value.trim(),
   password:document.getElementById("password").value
  });
 
- if(error){
-  loginStatus.textContent=error.message;
-  return;
- }
-
+ if(error){message("loginStatus",error.message);return;}
  await checkAdmin();
-});
+};
 
-document.getElementById("logoutButton").addEventListener("click",async()=>{
+document.getElementById("logout").onclick=async()=>{
  await db.auth.signOut();
  location.reload();
-});
+};
 
 async function loadCategories(){
  const {data,error}=await db.from("categories")
   .select("id,name").order("sort_order");
 
- if(error) throw error;
+ if(error)throw error;
 
  const select=document.getElementById("category");
  select.innerHTML='<option value="">Select category</option>';
 
- data.forEach(c=>{
-  const option=document.createElement("option");
-  option.value=c.id;
-  option.textContent=c.name;
-  select.appendChild(option);
+ (data||[]).forEach(c=>{
+  const o=document.createElement("option");
+  o.value=c.id;o.textContent=c.name;
+  select.appendChild(o);
  });
 }
 
@@ -204,248 +218,350 @@ async function loadProducts(){
  list.textContent="Loading products...";
 
  const {data,error}=await db.from("products")
-  .select("id,name,price,price_1_day,price_7_days,price_30_days,version,image_url,app_file_path,categories(name)")
+  .select("id,name,price_1_day,price_7_days,price_30_days,version,image_url,icon_url,app_file_path,categories(name)")
   .order("created_at",{ascending:false});
 
- if(error){
-  list.textContent=error.message;
-  return;
- }
+ if(error){list.textContent=error.message;return;}
 
- document.getElementById("totalProducts").textContent=
-  "Total products: "+data.length;
-
- if(!data.length){
-  list.textContent="No products added yet.";
-  return;
- }
+ document.getElementById("totalProducts").textContent="Total products: "+data.length;
 
  list.innerHTML=data.map(p=>`
-  <div class="product">
-   <img src="${safe(p.icon_url || p.image_url || '')}" alt="">
-   <div class="product-info">
-    <strong>${safe(p.name)}</strong>
-    <p>${safe(p.categories?.name || "No category")}</p>
-    <p>1 Day: ₹${safe(p.price_1_day)} | 7 Days: ₹${safe(p.price_7_days)} | 30 Days: ₹${safe(p.price_30_days)}</p>
-    <p>${safe(p.version || "")}</p>
-   </div>
-   <button class="danger" data-delete="${safe(p.id)}">Delete</button>
+ <div class="product">
+  <img src="${safe(p.icon_url||p.image_url||"")}" alt="">
+  <div class="product-info">
+   <b>${safe(p.name)}</b>
+   <p>${safe(p.categories?.name||"No category")}</p>
+   <p>1 Day ₹${safe(p.price_1_day)} | 7 Days ₹${safe(p.price_7_days)} | 30 Days ₹${safe(p.price_30_days)}</p>
+   <p>${safe(p.version||"")}</p>
   </div>
- `).join("");
+  <button class="danger" data-delete="${safe(p.id)}">Delete</button>
+ </div>`).join("");
 
- list.querySelectorAll("[data-delete]").forEach(button=>{
-  button.addEventListener("click",()=>{
-   deleteProduct(button.dataset.delete);
-  });
+ list.querySelectorAll("[data-delete]").forEach(b=>{
+  b.onclick=()=>deleteProduct(b.dataset.delete);
  });
 }
 
-function iconToBlob(icon){
- if(!icon) throw new Error("APK ke andar app icon nahi mila.");
+async function loadKeyProducts(){
+ const select=document.getElementById("keyProduct");
+ const {data,error}=await db.from("products").select("id,name").order("name");
+ if(error){select.innerHTML='<option>Error loading products</option>';return;}
 
- if(icon instanceof Blob) return icon;
+ select.innerHTML='<option value="">Select product</option>';
+ (data||[]).forEach(p=>{
+  const o=document.createElement("option");
+  o.value=p.id;o.textContent=p.name;
+  select.appendChild(o);
+ });
+}
 
- if(typeof icon!=="string")
-  throw new Error("APK icon format samajh nahi aaya.");
+document.getElementById("uploadKeys").onclick=async()=>{
+ const btn=document.getElementById("uploadKeys");
+ btn.disabled=true;
 
- let mime="image/png";
- let base64=icon;
+ try{
+  const productId=document.getElementById("keyProduct").value;
+  const file=document.getElementById("keyFile").files[0];
 
- const match=icon.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.*)$/s);
+  if(!productId||!file)throw new Error("Product aur TXT file select karo.");
+  if(!file.name.toLowerCase().endsWith(".txt"))throw new Error("Sirf TXT file allowed hai.");
 
- if(match){
-  mime=match[1];
-  base64=match[2];
+  const keys=(await file.text()).split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+
+  if(!keys.length||keys.length>500)throw new Error("1 se 500 keys honi chahiye.");
+  if(keys.some(k=>k.length>500))throw new Error("Key 500 characters se badi hai.");
+  if(new Set(keys).size!==keys.length)throw new Error("TXT mein duplicate keys hain.");
+
+  message("keyStatus","Uploading keys...");
+
+  const rows=keys.map(key=>({product_id:productId,key_value:key}));
+
+  const {error}=await db.from("product_keys").insert(rows);
+  if(error)throw error;
+
+  message("keyStatus",keys.length+" keys successfully uploaded.");
+  document.getElementById("keyFile").value="";
+ }catch(e){
+  message("keyStatus","Error: "+e.message);
+ }finally{
+  btn.disabled=false;
  }
+};
+
+async function loadOrders(){
+ const pending=document.getElementById("pendingOrders");
+ const all=document.getElementById("allOrders");
+
+ pending.textContent="Loading...";
+ all.textContent="Loading...";
+
+ const {data,error}=await db.from("orders")
+  .select("id,product_id,product_name,amount,plan_days,status,guest_name,guest_phone,payment_screenshot_path,payment_submitted_at,created_at,admin_note")
+  .order("created_at",{ascending:false}).limit(100);
+
+ if(error){
+  pending.textContent=error.message;
+  all.textContent=error.message;
+  return;
+ }
+
+ document.getElementById("totalOrders").textContent="Orders loaded: "+data.length;
+
+ renderOrders(data.filter(o=>o.status==="pending"),pending);
+ renderOrders(data,all);
+}
+
+function renderOrders(orders,container){
+ if(!orders.length){container.textContent="No orders found.";return;}
+
+ container.innerHTML=orders.map(o=>`
+ <div class="order">
+  <b>Order #${safe(o.id)}</b>
+  <p>Product: ${safe(o.product_name)}</p>
+  <p>Customer: ${safe(o.guest_name||"Guest")}</p>
+  <p>WhatsApp: ${safe(o.guest_phone||"-")}</p>
+  <p>Plan: ${safe(o.plan_days)} Days</p>
+  <p>Amount: ₹${safe(o.amount)}</p>
+  <p>Status: <b>${safe(o.status)}</b></p>
+  <p>Payment submitted: ${safe(o.payment_submitted_at||"Not submitted")}</p>
+  <p>Note: ${safe(o.admin_note||"-")}</p>
+  <div class="actions">
+   ${o.payment_screenshot_path?`<button class="secondary" data-proof="${safe(o.id)}">VIEW PAYMENT</button>`:""}
+   ${o.status==="pending"?`
+    <button class="success" data-approve="${safe(o.id)}">APPROVE</button>
+    <button class="danger" data-reject="${safe(o.id)}">REJECT</button>
+   `:""}
+  </div>
+  <div id="result-${safe(o.id)}"></div>
+ </div>`).join("");
+
+ container.querySelectorAll("[data-proof]").forEach(b=>b.onclick=()=>viewPayment(b.dataset.proof));
+ container.querySelectorAll("[data-approve]").forEach(b=>b.onclick=()=>approveOrder(b.dataset.approve));
+ container.querySelectorAll("[data-reject]").forEach(b=>b.onclick=()=>rejectOrder(b.dataset.reject));
+}
+
+async function viewPayment(id){
+ const {data:order,error}=await db.from("orders")
+  .select("payment_screenshot_path").eq("id",id).single();
+
+ if(error||!order?.payment_screenshot_path){
+  alert("Payment screenshot nahi mila.");return;
+ }
+
+ const {data,error:signError}=await db.storage
+  .from("payment-proofs")
+  .createSignedUrl(order.payment_screenshot_path,120);
+
+ if(signError){alert(signError.message);return;}
+
+ window.open(data.signedUrl,"_blank","noopener");
+}
+
+async function approveOrder(id){
+ if(!confirm("Payment verify kar liya hai? Approve karein?"))return;
+
+ const note=prompt("Admin note (optional):")||"";
+
+ const {error}=await db.rpc("approve_guest_order",{
+  p_order_id:Number(id),p_admin_note:note
+ });
+
+ if(error){alert("Approval error: "+error.message);return;}
+
+ const {data:key,error:keyError}=await db.from("product_keys")
+  .select("key_value").eq("assigned_order_id",id).maybeSingle();
+
+ if(keyError||!key){
+  alert("Order approved, key fetch nahi hui. Database mein check karein.");
+  await loadOrders();return;
+ }
+
+ const {data:order}=await db.from("orders")
+  .select("guest_phone,product_name,plan_days")
+  .eq("id",id).single();
+
+ const result=document.getElementById("result-"+id);
+ if(result){
+  result.innerHTML=`
+   <p class="keybox"><b>Assigned Key:</b><br>${safe(key.key_value)}</p>
+   <button id="copy-${id}" class="secondary">COPY KEY</button>
+   <button id="wa-${id}" class="success">SEND WHATSAPP</button>`;
+
+  document.getElementById("copy-"+id).onclick=async()=>{
+   await navigator.clipboard.writeText(key.key_value);
+   alert("Key copied.");
+  };
+
+  document.getElementById("wa-"+id).onclick=()=>{
+   let phone=String(order?.guest_phone||"").replace(/\D/g,"");
+   if(phone.length===10)phone="91"+phone;
+   if(phone.length<10){alert("Valid WhatsApp number nahi mila.");return;}
+
+   const msg=`NEXORA GAMING\nYour order is approved.\nProduct: ${order.product_name}\nPlan: ${order.plan_days} Days\nYour Product Key: ${key.key_value}`;
+
+   window.open("https://wa.me/"+phone+"?text="+encodeURIComponent(msg),"_blank");
+  };
+ }
+
+ alert("Order approved. Unique key assigned.");
+ await loadOrders();
+}
+
+async function rejectOrder(id){
+ const note=prompt("Reject karne ka reason:");
+ if(note===null)return;
+ if(!confirm("Order reject karna hai?"))return;
+
+ const {error}=await db.rpc("reject_guest_order",{
+  p_order_id:Number(id),p_admin_note:note
+ });
+
+ if(error){alert(error.message);return;}
+
+ alert("Order rejected.");
+ await loadOrders();
+}
+
+function iconToBlob(icon){
+ if(!icon)throw new Error("APK icon nahi mila.");
+ if(icon instanceof Blob)return icon;
+ if(typeof icon!=="string")throw new Error("Icon format invalid.");
+
+ let mime="image/png",base64=icon;
+ const match=icon.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.*)$/s);
+ if(match){mime=match[1];base64=match[2];}
 
  const binary=atob(base64);
  const bytes=new Uint8Array(binary.length);
-
- for(let i=0;i<binary.length;i++){
-  bytes[i]=binary.charCodeAt(i);
- }
-
+ for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);
  return new Blob([bytes],{type:mime});
 }
 
-document.getElementById("productForm").addEventListener("submit",async e=>{
+document.getElementById("productForm").onsubmit=async e=>{
  e.preventDefault();
 
- const button=document.getElementById("saveButton");
- button.disabled=true;
+ const btn=document.getElementById("saveButton");
+ btn.disabled=true;
 
- let apkPath=null;
- let iconPath=null;
+ let apkPath=null,iconPath=null,saved=false;
 
  try{
-  statusBox.textContent="Checking product details...";
+  message("status","Checking details...");
 
   const name=document.getElementById("name").value.trim();
   const categoryId=document.getElementById("category").value;
   const version=document.getElementById("version").value.trim();
   const description=document.getElementById("description").value.trim();
 
-  const price1=Number(document.getElementById("price1").value);
-  const price7=Number(document.getElementById("price7").value);
-  const price30=Number(document.getElementById("price30").value);
-
-  const sortOrder=Number(document.getElementById("sort").value)||0;
+  const p1=Number(document.getElementById("price1").value);
+  const p7=Number(document.getElementById("price7").value);
+  const p30=Number(document.getElementById("price30").value);
+  const sort=Number(document.getElementById("sort").value)||0;
   const file=document.getElementById("apk").files[0];
 
-  if(!name || !categoryId)
-   throw new Error("Product name aur category select karo.");
+  if(!name||!categoryId)throw new Error("Product name aur category required.");
+  if(![p1,p7,p30].every(v=>Number.isFinite(v)&&v>=0))throw new Error("Prices check karo.");
+  if(!file||!file.name.toLowerCase().endsWith(".apk"))throw new Error("Valid APK select karo.");
+  if(file.size>50*1024*1024)throw new Error("APK maximum 50 MB.");
 
-  if(![price1,price7,price30].every(v=>Number.isFinite(v)&&v>=0))
-   throw new Error("Teeno prices sahi enter karo.");
+  if(!window.AppInfoParser)throw new Error("APK parser load nahi hua.");
 
-  if(!file) throw new Error("APK file select karo.");
-
-  if(!file.name.toLowerCase().endsWith(".apk"))
-   throw new Error("Sirf APK file upload karo.");
-
-  if(file.size>50*1024*1024)
-   throw new Error("APK maximum 50 MB ki honi chahiye.");
-
-  if(!window.AppInfoParser)
-   throw new Error("APK parser load nahi hua. Page refresh karke dobara try karo.");
-
-  statusBox.textContent="APK ka original icon extract ho raha hai...";
-
+  message("status","Extracting APK icon...");
   const parser=new window.AppInfoParser(file);
   const result=await parser.parse();
-
   const iconBlob=iconToBlob(result.icon);
 
-  statusBox.textContent="APK private storage mein upload ho raha hai...";
+  const uid=uniqueName();
+  apkPath="products/"+uid+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
 
-  const unique=makeId();
-  const apkName=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
-
-  apkPath="products/"+unique+"-"+apkName;
-
-  const {error:apkError}=await db.storage
-   .from("app-downloads")
+  message("status","Uploading APK...");
+  const {error:apkError}=await db.storage.from("app-downloads")
    .upload(apkPath,file,{
     contentType:"application/vnd.android.package-archive",
     upsert:false
    });
+  if(apkError)throw apkError;
 
-  if(apkError) throw apkError;
+  const ext=iconBlob.type==="image/jpeg"?"jpg":iconBlob.type==="image/webp"?"webp":"png";
+  iconPath="product-icons/"+uid+"."+ext;
 
-  statusBox.textContent="App icon public storage mein upload ho raha hai...";
+  message("status","Uploading icon...");
+  const {error:iconError}=await db.storage.from("site-media")
+   .upload(iconPath,iconBlob,{contentType:iconBlob.type,upsert:false});
+  if(iconError)throw iconError;
 
-  const iconExt=iconBlob.type==="image/jpeg"?"jpg":
-   iconBlob.type==="image/webp"?"webp":"png";
+  const {data:urlData}=db.storage.from("site-media").getPublicUrl(iconPath);
 
-  iconPath="product-icons/"+unique+"."+iconExt;
+  message("status","Saving product...");
+  const {error:insertError}=await db.from("products").insert({
+   name,category_id:categoryId,description,version,
+   price:p30,price_1_day:p1,price_7_days:p7,price_30_days:p30,
+   image_url:urlData.publicUrl,icon_url:urlData.publicUrl,
+   app_file_path:apkPath,file_type:"apk",
+   download_url:null,sort_order:sort,is_active:true
+  });
 
-  const {error:iconError}=await db.storage
-   .from("site-media")
-   .upload(iconPath,iconBlob,{
-    contentType:iconBlob.type,
-    upsert:false
-   });
+  if(insertError)throw insertError;
+  saved=true;
 
-  if(iconError) throw iconError;
-
-  const {data:urlData}=db.storage
-   .from("site-media").getPublicUrl(iconPath);
-
-  const iconUrl=urlData.publicUrl;
-
-  statusBox.textContent="Product database mein save ho raha hai...";
-
-  const product={
-   name:name,
-   category_id:categoryId,
-   description:description,
-   version:version,
-   price:price30,
-   price_1_day:price1,
-   price_7_days:price7,
-   price_30_days:price30,
-   image_url:iconUrl,
-   icon_url:iconUrl,
-   app_file_path:apkPath,
-   file_type:"apk",
-   download_url:null,
-   sort_order:sortOrder,
-   is_active:true
-  };
-
-  const {error:insertError}=await db.from("products").insert(product);
-
-  if(insertError) throw insertError;
-
-  statusBox.textContent="Product successfully added! APK aur icon upload ho gaye.";
-
+  message("status","Product successfully added!");
   document.getElementById("productForm").reset();
-  document.getElementById("price1").value="0";
-  document.getElementById("price7").value="0";
-  document.getElementById("price30").value="0";
-  document.getElementById("sort").value="0";
+  document.getElementById("price1").value=0;
+  document.getElementById("price7").value=0;
+  document.getElementById("price30").value=0;
+  document.getElementById("sort").value=0;
 
   await loadProducts();
+  await loadKeyProducts();
 
  }catch(error){
-
-  statusBox.textContent="Error: "+(error.message||"Unknown error");
-
-  // Failed database insertion par uploaded files ko clean karne ki koshish.
-  // Upload error ke case mein bhi safe cleanup.
-  if(apkPath){
-   await db.storage.from("app-downloads").remove([apkPath]);
+  message("status","Error: "+error.message);
+  if(!saved){
+   if(apkPath)await db.storage.from("app-downloads").remove([apkPath]);
+   if(iconPath)await db.storage.from("site-media").remove([iconPath]);
   }
-
-  if(iconPath){
-   await db.storage.from("site-media").remove([iconPath]);
-  }
-
  }finally{
-  button.disabled=false;
+  btn.disabled=false;
  }
-});
+};
 
 async function deleteProduct(id){
- if(!confirm("Delete this product?")) return;
+ if(!confirm("Delete this product?"))return;
 
  const {data,error}=await db.from("products")
   .select("app_file_path,icon_url,image_url")
   .eq("id",id).single();
 
- if(error){
-  alert(error.message);
-  return;
- }
+ if(error){alert(error.message);return;}
 
- const {error:deleteError}=await db.from("products")
-  .delete().eq("id",id);
+ const {error:delError}=await db.from("products").delete().eq("id",id);
+ if(delError){alert(delError.message);return;}
 
- if(deleteError){
-  alert(deleteError.message);
-  return;
- }
-
- if(data.app_file_path){
+ if(data.app_file_path)
   await db.storage.from("app-downloads").remove([data.app_file_path]);
- }
 
- const imageUrl=data.icon_url||data.image_url;
+ const image=data.icon_url||data.image_url;
+ const marker="/storage/v1/object/public/site-media/";
+ const index=image?image.indexOf(marker):-1;
 
- if(imageUrl){
-  const marker="/storage/v1/object/public/site-media/";
-  const index=imageUrl.indexOf(marker);
-
-  if(index!==-1){
-   const imagePath=decodeURIComponent(imageUrl.slice(index+marker.length));
-   await db.storage.from("site-media").remove([imagePath]);
-  }
+ if(index!==-1){
+  const path=decodeURIComponent(image.slice(index+marker.length));
+  await db.storage.from("site-media").remove([path]);
  }
 
  await loadProducts();
+ await loadKeyProducts();
 }
 
-checkAdmin();
+document.getElementById("refreshPending").onclick=loadOrders;
+document.getElementById("refreshAll").onclick=loadOrders;
+
+if(!db){
+ document.getElementById("loginStatus").textContent=
+  "Supabase client nahi mila. supabase-config.js check karo.";
+}else{
+ checkAdmin();
+}
 </script>
 </body>
 </html>
