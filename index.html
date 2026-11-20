@@ -3,135 +3,122 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#08090d">
-<title>AIM SERVER 4.7 | Premium Store</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0915">
+<title>NEXORA | Premium Store</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
- background:#08090d;color:#fff;
- font-family:Arial,sans-serif;
+ background:#0b0915;color:#fff;font-family:Arial,sans-serif;
  padding-bottom:85px;
 }
 header{
- height:65px;padding:0 18px;
- display:flex;align-items:center;
- justify-content:space-between;
- background:#101116;
- border-bottom:1px solid #292929;
+ height:65px;padding:0 18px;display:flex;
+ align-items:center;justify-content:space-between;
+ background:#171326;border-bottom:1px solid #38265c;
  position:sticky;top:0;z-index:10;
 }
-.logo{font-size:19px;font-weight:900;color:#f5c542}
-.logo span{color:white}
-.menu{font-size:25px;color:#f5c542}
+.logo{font-size:19px;font-weight:900;color:#c39aff}
+.logo span{color:#fff}
 .profile{
  width:37px;height:37px;border-radius:50%;
- background:#29251a;border:1px solid #e5b936;
+ background:#292039;border:1px solid #7650a8;
  display:grid;place-items:center;font-size:19px;
 }
-.container{padding:18px}
+.container{padding:18px;max-width:900px;margin:auto}
 .welcome{font-size:13px;color:#aaa;margin-bottom:8px}
 h2{font-size:23px;margin-bottom:15px}
-h2 span{color:#f5c542}
+h2 span{color:#c39aff}
 .banner{
- min-height:170px;border-radius:15px;
- padding:23px 19px;
- background:linear-gradient(120deg,#29200c,#11131c 65%,#25200f);
- border:1px solid #a47c23;
- position:relative;overflow:hidden;
+ min-height:170px;border-radius:15px;padding:23px 19px;
+ background:linear-gradient(120deg,#291747,#11131c 65%,#202044);
+ border:1px solid #68449a;
 }
-.banner:after{
- content:"";position:absolute;width:170px;height:170px;
- right:-65px;top:10px;border-radius:50%;
- background:#d9a52920;
-}
-.banner small{color:#e9bd49;letter-spacing:2px}
+.banner small{color:#c39aff;letter-spacing:2px}
 .banner h1{font-size:27px;margin:13px 0 8px}
-.banner p{font-size:12px;color:#c0bdb5}
+.banner p{font-size:12px;color:#c0b8ce}
 .banner button{
- margin-top:17px;padding:10px 19px;
- background:#edbd40;border:0;border-radius:6px;
- color:#17120a;font-weight:bold;
+ margin-top:17px;padding:11px 19px;background:#8b45e8;
+ border:0;border-radius:6px;color:white;font-weight:bold;
 }
 .section-title{
  display:flex;justify-content:space-between;
  align-items:center;margin:26px 0 15px;
 }
 .section-title h3{font-size:17px}
-.section-title span{font-size:12px;color:#e8b936}
+.section-title span{font-size:12px;color:#c39aff}
 .categories{
- display:grid;grid-template-columns:repeat(3,1fr);
- gap:10px;
+ display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
 }
 .category{
- background:#15161d;border:1px solid #292a30;
- border-radius:10px;text-align:center;
- padding:16px 5px;font-size:13px;
+ background:#171326;border:1px solid #38265c;
+ border-radius:10px;text-align:center;padding:16px 5px;
+ font-size:13px;color:#ccc;cursor:pointer;
 }
-.category b{display:block;font-size:25px;margin-bottom:9px}
-.category.active{border-color:#d9aa35;color:#efc14b}
+.category.active{border-color:#b77bff;color:#d6b0ff;background:#25183a}
 .search{
- width:100%;padding:14px 15px;
- background:#15161d;border:1px solid #303039;
- border-radius:9px;color:white;
- outline:none;font-size:14px;
+ width:100%;padding:14px 15px;background:#171326;
+ border:1px solid #38265c;border-radius:9px;color:white;
+ outline:none;font-size:14px;margin-bottom:14px;
 }
 .products{
  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
  gap:12px;
 }
 .product{
- background:#14151b;border:1px solid #2b2b30;
- border-radius:12px;overflow:hidden;
+ background:#171326;border:1px solid #38265c;
+ border-radius:12px;overflow:hidden;min-width:0;
 }
 .product-img{
- height:115px;display:grid;place-items:center;
- background:linear-gradient(140deg,#27200e,#171820);
- font-size:43px;
+ height:125px;display:grid;place-items:center;
+ background:linear-gradient(140deg,#29203c,#171326);
+}
+.product-img img{
+ width:100%;height:100%;object-fit:contain;padding:12px;
 }
 .product-info{padding:12px}
 .tag{
- display:inline-block;color:#eac04f;
- font-size:10px;background:#332a16;
- padding:5px 8px;border-radius:4px;
+ display:inline-block;color:#d4a9ff;font-size:10px;
+ background:#332348;padding:5px 8px;border-radius:4px;
 }
-.product h4{font-size:14px;margin:10px 0 7px}
-.product p{font-size:11px;color:#92939a;line-height:1.5}
-.price{
- color:#f3c34c;font-weight:bold;
- font-size:17px;margin-top:12px;
-}
-.buy{
+.product h4{font-size:14px;margin:10px 0 7px;overflow-wrap:anywhere}
+.product p{font-size:11px;color:#aaa;line-height:1.5}
+.version{margin-top:5px}
+.duration{
  width:100%;margin-top:12px;padding:10px;
- border:0;border-radius:6px;
- background:#e6b83d;color:#15120b;
- font-weight:bold;
+ border:1px solid #49366c;border-radius:6px;
+ background:#100d1c;color:white;
 }
-.empty{display:none;color:#999;font-size:13px;padding:20px 0}
+.price{color:#d6aaff;font-weight:bold;font-size:19px;margin-top:12px}
+.buy{
+ width:100%;margin-top:12px;padding:11px;
+ border:0;border-radius:6px;background:#8b45e8;
+ color:white;font-weight:bold;cursor:pointer;
+}
+.empty{display:none;color:#aaa;font-size:13px;padding:20px 0}
+.loading{color:#c39aff;font-size:13px;padding:20px 0}
 nav{
- position:fixed;bottom:0;left:0;width:100%;
- height:70px;background:#111218;
- border-top:1px solid #292a30;
- display:flex;justify-content:space-around;
- align-items:center;z-index:20;
+ position:fixed;bottom:0;left:0;width:100%;height:70px;
+ background:#171326;border-top:1px solid #38265c;
+ display:flex;justify-content:space-around;align-items:center;
+ z-index:20;
 }
-nav a{
- text-decoration:none;color:#92939a;
- font-size:11px;text-align:center;
-}
-nav a b{display:block;font-size:21px;margin-bottom:4px}
-nav a.active{color:#edbd40}
+nav a{text-decoration:none;color:#aaa;font-size:11px;text-align:center}
+nav a b{display:block;font-size:19px;margin-bottom:4px}
+nav a.active{color:#c39aff}
 footer{text-align:center;padding:25px;color:#777;font-size:11px}
+@media(max-width:350px){
+ .products{grid-template-columns:1fr}
+}
 </style>
 </head>
 
 <body>
 
 <header>
- <div class="logo">AIM SERVER <span>4.7</span></div>
- <div class="menu">☰</div>
- <div class="profile">👤</div>
+ <div class="logo">NEXORA <span>GAMING</span></div>
+ <div class="profile">N</div>
 </header>
 
 <main class="container">
@@ -140,156 +127,206 @@ footer{text-align:center;padding:25px;color:#777;font-size:11px}
  <h2>PREMIUM <span>GAMING STORE</span></h2>
 
  <section class="banner">
-  <small>✦ PREMIUM COLLECTION</small>
-  <h1>UPGRADE YOUR<br>GAMING EXPERIENCE</h1>
-  <p>Explore our premium digital gaming products.</p>
+  <small>PREMIUM COLLECTION</small>
+  <h1>EXPLORE OUR<br>GAMING APPS</h1>
+  <p>Choose your preferred app and subscription duration.</p>
   <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
-   EXPLORE NOW →
+   EXPLORE NOW
   </button>
  </section>
 
  <div class="section-title">
   <h3>Categories</h3>
-  <span>VIEW ALL →</span>
+  <span>OUR STORE</span>
  </div>
 
  <div class="categories">
-  <div class="category active" onclick="filterCategory('All',this)">
-   <b>🔥</b>All
-  </div>
-  <div class="category" onclick="filterCategory('Android',this)">
-   <b>🤖</b>Android
-  </div>
-  <div class="category" onclick="filterCategory('iOS',this)">
-   <b>🍎</b>iOS
-  </div>
-  <div class="category" onclick="filterCategory('PC',this)">
-   <b>💻</b>PC
-  </div>
-  <div class="category" onclick="filterCategory('Tools',this)">
-   <b>⚙️</b>Tools
-  </div>
-  <div class="category" onclick="filterCategory('Premium',this)">
-   <b>👑</b>Premium
-  </div>
+  <div class="category active" data-category="All">All</div>
+  <div class="category" data-category="Android">Android</div>
+  <div class="category" data-category="iOS">iOS</div>
+  <div class="category" data-category="Root">Root</div>
  </div>
 
  <div class="section-title" id="products">
   <h3>Premium Products</h3>
-  <span>OUR STORE</span>
+  <span id="productCount">Loading...</span>
  </div>
 
- <input class="search" id="search"
- placeholder="🔍 Search products..."
- oninput="searchProducts()">
+ <input class="search" id="search" placeholder="Search products...">
 
- <div class="products" id="productList">
-
-  <div class="product" data-category="Android">
-   <div class="product-img">🎮</div>
-   <div class="product-info">
-    <span class="tag">ANDROID</span>
-    <h4>Premium Gaming Pack</h4>
-    <p>Premium digital gaming package.</p>
-    <div class="price">₹199</div>
-    <button class="buy" onclick="contact()">BUY NOW</button>
-   </div>
-  </div>
-
-  <div class="product" data-category="iOS">
-   <div class="product-img">📱</div>
-   <div class="product-info">
-    <span class="tag">iOS</span>
-    <h4>iOS Premium Pack</h4>
-    <p>Digital premium gaming package.</p>
-    <div class="price">₹299</div>
-    <button class="buy" onclick="contact()">BUY NOW</button>
-   </div>
-  </div>
-
-  <div class="product" data-category="PC">
-   <div class="product-img">🖥️</div>
-   <div class="product-info">
-    <span class="tag">PC</span>
-    <h4>PC Gaming Pack</h4>
-    <p>Premium PC gaming collection.</p>
-    <div class="price">₹399</div>
-    <button class="buy" onclick="contact()">BUY NOW</button>
-   </div>
-  </div>
-
-  <div class="product" data-category="Tools">
-   <div class="product-img">⚙️</div>
-   <div class="product-info">
-    <span class="tag">TOOLS</span>
-    <h4>Gaming Utility Pack</h4>
-    <p>Useful gaming utilities.</p>
-    <div class="price">₹149</div>
-    <button class="buy" onclick="contact()">BUY NOW</button>
-   </div>
-  </div>
-
-  <div class="product" data-category="Premium">
-   <div class="product-img">👑</div>
-   <div class="product-info">
-    <span class="tag">PREMIUM</span>
-    <h4>VIP Gaming Pack</h4>
-    <p>Exclusive digital collection.</p>
-    <div class="price">₹499</div>
-    <button class="buy" onclick="contact()">BUY NOW</button>
-   </div>
-  </div>
-
- </div>
-
+ <div class="loading" id="loading">Loading products...</div>
+ <div class="products" id="productList"></div>
  <div class="empty" id="empty">No products found.</div>
 
 </main>
 
 <footer>
- © 2026 AIM SERVER 4.7<br><br>
+ © 2026 NEXORA GAMING<br><br>
  PREMIUM GAMING DIGITAL STORE
 </footer>
 
 <nav>
- <a href="#" class="active"><b>⌂</b>Home</a>
- <a href="#products"><b>▣</b>Store</a>
- <a href="#" onclick="contact()"><b>◉</b>Contact</a>
- <a href="#" onclick="alert('Login system coming soon')"><b>♙</b>Account</a>
+ <a href="#" class="active"><b>⌂</b>Store</a>
+ <a href="#contact" onclick="contact()"><b>◉</b>Contact</a>
+ <a href="#" onclick="comingSoon('Orders')"><b>▣</b>Orders</a>
+ <a href="#" onclick="comingSoon('Alerts')"><b>♢</b>Alerts</a>
+ <a href="#" onclick="comingSoon('Account')"><b>♙</b>Account</a>
 </nav>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+
 <script>
+let allProducts=[];
 let currentCategory="All";
 
-function filterCategory(category,element){
- currentCategory=category;
- document.querySelectorAll(".category").forEach(c=>c.classList.remove("active"));
- element.classList.add("active");
- searchProducts();
+function safe(value){
+ return String(value??"").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ })[c]);
 }
 
-function searchProducts(){
- let search=document.getElementById("search").value.toLowerCase();
- let cards=document.querySelectorAll(".product");
- let count=0;
+function money(value){
+ const amount=Number(value);
+ if(!Number.isFinite(amount))return "0";
+ return amount.toLocaleString("en-IN",{maximumFractionDigits:2});
+}
 
- cards.forEach(card=>{
-  let category=card.dataset.category;
-  let matchCategory=currentCategory==="All"||category===currentCategory;
-  let matchSearch=card.innerText.toLowerCase().includes(search);
-  card.style.display=matchCategory&&matchSearch?"block":"none";
-  if(matchCategory&&matchSearch)count++;
+async function loadProducts(){
+ const loading=document.getElementById("loading");
+ const list=document.getElementById("productList");
+
+ loading.style.display="block";
+ loading.textContent="Loading products...";
+
+ try{
+  const {data,error}=await db.from("products")
+   .select("id,name,description,version,price,price_1_day,price_7_days,price_30_days,image_url,icon_url,is_active,categories(name)")
+   .eq("is_active",true)
+   .order("sort_order",{ascending:true});
+
+  if(error)throw error;
+
+  allProducts=data||[];
+  loading.style.display="none";
+
+  renderProducts();
+
+ }catch(error){
+  loading.textContent="Products load nahi hue: "+error.message;
+  document.getElementById("productCount").textContent="Store";
+ }
+}
+
+function renderProducts(){
+ const list=document.getElementById("productList");
+ const search=document.getElementById("search").value.toLowerCase().trim();
+
+ const filtered=allProducts.filter(p=>{
+  const category=p.categories?.name||"";
+  const categoryMatch=currentCategory==="All"||category===currentCategory;
+  const searchMatch=(
+   (p.name||"")+" "+(p.description||"")+" "+category
+  ).toLowerCase().includes(search);
+
+  return categoryMatch&&searchMatch;
  });
- document.getElementById("empty").style.display=count===0?"block":"none";
+
+ document.getElementById("productCount").textContent=
+  allProducts.length+" PRODUCTS";
+
+ document.getElementById("empty").style.display=
+  filtered.length===0?"block":"none";
+
+ list.innerHTML=filtered.map(p=>{
+  const image=p.icon_url||p.image_url||"";
+  const category=p.categories?.name||"";
+  const price1=p.price_1_day??0;
+  const price7=p.price_7_days??0;
+  const price30=p.price_30_days??p.price??0;
+
+  return `
+   <div class="product">
+    <div class="product-img">
+     ${image?`<img src="${safe(image)}" alt="${safe(p.name)}">`:""}
+    </div>
+
+    <div class="product-info">
+     <span class="tag">${safe(category)}</span>
+     <h4>${safe(p.name)}</h4>
+     <p>${safe(p.description||"Premium digital product.")}</p>
+     <p class="version">Version: ${safe(p.version||"N/A")}</p>
+
+     <select class="duration" data-price-select="${safe(p.id)}">
+      <option value="1" data-price="${safe(price1)}">1 Day</option>
+      <option value="7" data-price="${safe(price7)}">7 Days</option>
+      <option value="30" data-price="${safe(price30)}" selected>30 Days</option>
+     </select>
+
+     <div class="price" id="price-${safe(p.id)}">
+      ₹${money(price30)}
+     </div>
+
+     <button class="buy" data-buy="${safe(p.id)}">
+      BUY NOW
+     </button>
+    </div>
+   </div>
+  `;
+ }).join("");
 }
+
+document.querySelectorAll(".category").forEach(button=>{
+ button.addEventListener("click",()=>{
+  document.querySelectorAll(".category").forEach(c=>c.classList.remove("active"));
+  button.classList.add("active");
+  currentCategory=button.dataset.category;
+  renderProducts();
+ });
+});
+
+document.getElementById("search").addEventListener("input",renderProducts);
+
+document.getElementById("productList").addEventListener("change",e=>{
+ if(!e.target.matches("[data-price-select]"))return;
+
+ const selected=e.target.selectedOptions[0];
+ const price=selected.dataset.price;
+ const id=e.target.dataset.priceSelect;
+
+ document.getElementById("price-"+id).textContent="₹"+money(price);
+});
+
+document.getElementById("productList").addEventListener("click",e=>{
+ const button=e.target.closest("[data-buy]");
+ if(!button)return;
+
+ const id=button.dataset.buy;
+ const product=allProducts.find(p=>String(p.id)===String(id));
+ if(!product)return;
+
+ const select=document.querySelector(`[data-price-select="${CSS.escape(id)}"]`);
+ const days=select.value;
+ const price=select.selectedOptions[0].dataset.price;
+
+ alert(
+  "Selected product: "+product.name+
+  "\nDuration: "+days+" Days"+
+  "\nPrice: ₹"+money(price)+
+  "\n\nPurchase system will be connected next."
+ );
+});
 
 function contact(){
  alert("Contact support will be available soon!");
 }
+
+function comingSoon(section){
+ alert(section+" section will be available soon!");
+}
+
+loadProducts();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js"></script>
- 
- 
+
 </body>
 </html>
