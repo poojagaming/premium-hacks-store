@@ -507,4 +507,68 @@ async function checkOrderStatus(){
    const key=data.key||data.product_key||"";
    if(key){
     $("approvedKey").classList.remove("hidden");
-    $("keyValue").textC
+    $("keyValue").textContent=key;
+   }else{
+    $("trackingStatus").textContent="Approved. Please contact support for your product key.";
+   }
+  }else if(status==="rejected"){
+   $("trackingStatus").textContent="Your payment was rejected. Please contact support.";
+  }else{
+   $("trackingStatus").textContent="Your order is pending admin verification. Please check again later.";
+  }
+
+ }catch(error){
+  $("trackingStatus").textContent="Status error: "+(error.message||"Please try again.");
+ }
+}
+
+async function showOrders(){
+ const token=localStorage.getItem("nexora_guest_order_token");
+ if(!token){
+  alert("You do not have a saved order yet.");
+  return;
+ }
+ currentOrderToken=token;
+ $("checkout").style.display="block";
+ document.body.style.overflow="hidden";
+ $("customerPanel").classList.add("hidden");
+ $("paymentPanel").classList.add("hidden");
+ $("trackingPanel").classList.remove("hidden");
+ $("checkoutTitle");
+ $("checkoutName").textContent="Your Order";
+ $("checkoutDescription").textContent="Check your payment approval and product key below.";
+ $("checkoutGallery").innerHTML="";
+ $("checkoutVersion").textContent="";
+ await checkOrderStatus();
+}
+
+function copyUPI(){
+ if(!currentUPI){
+  alert("UPI ID is not available. You can scan the QR code.");
+  return;
+ }
+ navigator.clipboard.writeText(currentUPI)
+  .then(()=>alert("UPI ID copied."))
+  .catch(()=>alert("Please copy the UPI ID manually."));
+}
+
+function copyKey(){
+ const key=$("keyValue").textContent;
+ navigator.clipboard.writeText(key)
+  .then(()=>alert("Product key copied."))
+  .catch(()=>alert("Please select and copy the key."));
+}
+
+function contact(){
+ alert("Contact support will be available soon!");
+}
+
+function comingSoon(section){
+ alert(section+" section will be available soon!");
+}
+
+loadProducts();
+</script>
+
+</body>
+</html>
