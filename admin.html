@@ -135,7 +135,7 @@ label{display:block;margin-top:10px;color:#d6baff}
 <script>
 const loginBox=document.getElementById("login");
 const app=document.getElementById("app");
-const db = window.supabaseClient || (typeof supabase !== "undefined" ? supabase : null);
+const client = db;
 
 function safe(v){
  return String(v??"").replace(/[&<>"']/g,c=>({
