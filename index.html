@@ -491,6 +491,7 @@ async function uploadProof(){
  }
 }
 
+
 async function checkOrderStatus(){
  if(!currentOrderToken){
   $("trackingStatus").textContent="No order token found.";
@@ -504,28 +505,42 @@ async function checkOrderStatus(){
    body:{access_token:currentOrderToken}
   });
 
-  if(error)throw error;
-  if(data?.error)throw new Error(data.error);
+  if(error) throw error;
+  if(data?.error) throw new Error(data.error);
 
-  const status=String(data.status||"pending").toLowerCase();
+  const order=data?.order;
+
+  if(!order){
+   throw new Error("Order details not received.");
+  }
+
+  const status=String(order.status||"pending").toLowerCase();
 
   if(status==="approved"){
    $("trackingStatus").textContent="Your payment is approved!";
-   const key=data.key||data.product_key||"";
+
+   const key=order.product_key||"";
+
    if(key){
     $("approvedKey").classList.remove("hidden");
     $("keyValue").textContent=key;
    }else{
-    $("trackingStatus").textContent="Approved. Please contact support for your product key.";
+    $("trackingStatus").textContent=
+     "Approved. Please contact support for your product key.";
    }
+
   }else if(status==="rejected"){
-   $("trackingStatus").textContent="Your payment was rejected. Please contact support.";
+   $("trackingStatus").textContent=
+    "Your payment was rejected. Please contact support.";
+
   }else{
-   $("trackingStatus").textContent="Your order is pending admin verification. Please check again later.";
+   $("trackingStatus").textContent=
+    "Your order is pending admin verification. Please check again later.";
   }
 
  }catch(error){
-  $("trackingStatus").textContent="Status error: "+(error.message||"Please try again.");
+  $("trackingStatus").textContent=
+   "Status error: "+(error.message||"Please try again.");
  }
 }
 
